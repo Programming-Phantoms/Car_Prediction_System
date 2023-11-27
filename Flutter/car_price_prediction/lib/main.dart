@@ -79,6 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset(
+              'assets/car.png',
+              width: 300,
+            ),
+            ElevatedButton(onPressed: loadData, child: Text('Load Data')),
             Container(
               child: SfCircularChart(
                 title: ChartTitle(text: 'Pie Chart'),
@@ -113,14 +118,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     xValueMapper: (ChartDataBar data, _) => data.carCompany,
                     yValueMapper: (ChartDataBar data, _) => data.counts,
                     borderRadius: BorderRadius.all(Radius.circular(15)),
-                    width: 0.8,
+                    width: 0.7,
                     spacing: 0.2,
                   ),
                 ],
                 primaryXAxis: CategoryAxis(),
               ),
             ),
-            ElevatedButton(onPressed: loadData, child: Text('Load Data'))
           ],
         ),
       ),
