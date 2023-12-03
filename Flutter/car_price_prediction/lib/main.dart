@@ -38,9 +38,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color.fromARGB(255, 38, 38, 38),
-      body: Home(title: 'Car Price Prediction'),
+    return const SafeArea(
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 38, 38, 38),
+        body: Home(title: 'Car Price Prediction'),
+      ),
     );
   }
 }

@@ -54,7 +54,7 @@ def train_linear_regression():
         'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients':model.coef_.tolist(),'x_axis':X_test['Kilometers_Driven'].tolist()},
         'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
         'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()},
-'general': {''}
+
     }
 
     return jsonify({'result': results})

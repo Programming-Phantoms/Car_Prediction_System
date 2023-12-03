@@ -19,6 +19,7 @@ class _MyHomePageState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -41,7 +42,13 @@ class _MyHomePageState extends State<Home> {
           ),
           const SizedBox(height: 30),
           const Text(
-            'Here you can predict the car price with more accuracy\nOur prediction modal is trained on 30 unique car brands',
+            'Here you can predict the car price with more accuracy',
+            style: TextStyle(
+                fontSize: 16, color: Color.fromARGB(255, 255, 255, 255)),
+            textAlign: TextAlign.center,
+          ),
+          const Text(
+            'Our prediction modal is trained on 30 unique car brands',
             style: TextStyle(
                 fontSize: 16, color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,

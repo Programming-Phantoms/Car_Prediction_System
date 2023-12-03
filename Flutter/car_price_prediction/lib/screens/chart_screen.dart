@@ -1,7 +1,11 @@
+import 'package:car_price_prediction/components/text_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import '../components/dropdown.dart';
 
 class Charts extends StatefulWidget {
   static String routeName = '/chart-page';
@@ -18,6 +22,11 @@ class _MyHomePageState extends State<Charts> {
   final List<ChartDataBar> chartDataBar = [];
   final List<ChartDataScatterLine> chartDataScatterLine = [];
   bool loading = true;
+  final kilometerDriven = TextEditingController();
+  final mileage = TextEditingController();
+  final engine = TextEditingController();
+  final power = TextEditingController();
+  final seats = TextEditingController();
 
   Future<void> _simulateLoading() async {
     setState(() {
@@ -92,128 +101,285 @@ class _MyHomePageState extends State<Charts> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 38, 38, 38),
-      body: (loading)
-          ? const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                      color: Color.fromARGB(255, 255, 243, 23)),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Fetching Data...',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            )
-          : SingleChildScrollView(
-              child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 38, 38, 38),
+        body: (loading)
+            ? const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        const SizedBox(width: 15),
-                        InkWell(
-                          borderRadius: BorderRadius.circular(20.0),
-                          onTap: goHome,
-                          child: Container(
-                            padding: const EdgeInsets.all(10.0),
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(255, 255, 243, 23)),
-                            child: const Icon(
-                              Icons.arrow_back,
-                              color: Color.fromARGB(255, 38, 38, 38),
-                              size: 20.0,
-                            ),
-                          ),
-                        ),
-                      ]),
-                      Row(children: [
-                        InkWell(
-                          borderRadius: BorderRadius.circular(20.0),
-                          onTap: loadData,
-                          child: Container(
-                            padding: const EdgeInsets.all(10.0),
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(255, 255, 243, 23)),
-                            child: const Icon(
-                              Icons.file_download_rounded,
-                              color: Color.fromARGB(255, 38, 38, 38),
-                              size: 20.0,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                      ]),
-                    ],
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                        color: Color.fromARGB(255, 255, 243, 23)),
                   ),
-                  const SizedBox(height: 80),
-                  SizedBox(
-                    width: 750,
-                    child: SfCircularChart(
-                      title: ChartTitle(
-                        text: 'Pie Chart',
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
-                      legend: const Legend(
-                        isVisible: true,
-                        overflowMode: LegendItemOverflowMode.wrap,
-                        alignment: ChartAlignment.center,
-                        backgroundColor: Color.fromARGB(255, 57, 57, 57),
-                        orientation: LegendItemOrientation.horizontal,
-                        textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255)),
-                        title: LegendTitle(
-                          text: 'Fuel Types',
-                          textStyle: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      series: <PieSeries<ChartDataPie, String>>[
-                        PieSeries<ChartDataPie, String>(
-                          dataSource: chartDataDoughnut,
-                          xValueMapper: (ChartDataPie data, _) => data.fuelType,
-                          yValueMapper: (ChartDataPie data, _) => data.counts,
-                          dataLabelMapper: (ChartDataPie data, _) =>
-                              '${((data.counts / 6019) * 100).toStringAsFixed(2)}%',
-                          radius: '60%',
-                          dataLabelSettings: const DataLabelSettings(
-                            margin: EdgeInsets.zero,
-                            isVisible: true,
-                            textStyle:
-                                TextStyle(color: Colors.white, fontSize: 14),
-                            labelPosition: ChartDataLabelPosition.outside,
-                            connectorLineSettings: ConnectorLineSettings(
-                                type: ConnectorType.curve, length: '50%'),
+                  SizedBox(height: 20),
+                  Text(
+                    'Fetching Data...',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(children: [
+                          const SizedBox(width: 15),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: goHome,
+                            child: Container(
+                              padding: const EdgeInsets.all(10.0),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromARGB(255, 255, 243, 23)),
+                              child: const Icon(
+                                Icons.arrow_back,
+                                color: Color.fromARGB(255, 38, 38, 38),
+                                size: 20.0,
+                              ),
+                            ),
                           ),
-                        ),
+                        ]),
+                        Row(children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: loadData,
+                            child: Container(
+                              padding: const EdgeInsets.all(10.0),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromARGB(255, 255, 243, 23)),
+                              child: const Icon(
+                                Icons.file_download_rounded,
+                                color: Color.fromARGB(255, 38, 38, 38),
+                                size: 20.0,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                        ]),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 100),
-                  SizedBox(
-                    height: 700,
-                    width: 1200,
-                    child: SfCartesianChart(
-                      legend: const Legend(
+                    const SizedBox(height: 50),
+                    const Text('Price Prediction Parameters',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 70),
+                    const SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            width: 210,
+                            child: MyDropdown(
+                                hintText: 'Select Year',
+                                list: [
+                                  '1998',
+                                  '1999',
+                                  '2000',
+                                  '2001',
+                                  '2002',
+                                  '2003',
+                                  '2004',
+                                  '2005',
+                                  '2006',
+                                  '2007',
+                                  '2008',
+                                  '2009',
+                                  '2010',
+                                  '2011',
+                                  '2012',
+                                  '2013',
+                                  '2014',
+                                  '2015',
+                                  '2016',
+                                  '2017',
+                                  '2018',
+                                  '2019'
+                                ],
+                                prefixIcon: Icons.calendar_month_outlined),
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: MyDropdown(
+                                hintText: 'Select Car Brand',
+                                list: [
+                                  'Audi',
+                                  'Ambassador',
+                                  'Bentley',
+                                  'BMW',
+                                  'Chevrolet',
+                                  'Datsun',
+                                  'Fiat',
+                                  'Ford',
+                                  'Force',
+                                  'Honda',
+                                  'Isuzu',
+                                  'Jaguar',
+                                  'Jeep',
+                                  'Lamborghini',
+                                  'Land Rover',
+                                  'Mahindra',
+                                  'Maruti',
+                                  'Mercedes-Benz',
+                                  'Mini',
+                                  'Mitsubishi',
+                                  'Nissan',
+                                  'Porsche',
+                                  'Renault',
+                                  'Skoda',
+                                  'Smart',
+                                  'Tata',
+                                  'Toyota',
+                                  'Volkswagen',
+                                  'Volvo'
+                                ],
+                                prefixIcon: CupertinoIcons.car_detailed),
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: MyDropdown(
+                                hintText: 'Select Fuel Type',
+                                list: ['CNG', 'Diesel', 'LPG', 'Petrol'],
+                                prefixIcon: Icons.filter_alt_rounded),
+                          ),
+                          SizedBox(
+                            width: 270,
+                            child: MyDropdown(
+                                hintText: 'Transmission Type',
+                                list: ['Automatic', 'Manual'],
+                                prefixIcon: Icons.transform),
+                          ),
+                          SizedBox(
+                            width: 270,
+                            child: MyDropdown(
+                                hintText: 'Owner Type',
+                                list: ['Second', 'Third', 'Fourth or above'],
+                                prefixIcon: Icons.people_sharp),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 280,
+                            child: MyTextField(
+                                controller: kilometerDriven,
+                                hintText: 'Kilometer Driven',
+                                obscureText: false,
+                                maxLength: 8,
+                                exactLength: 8,
+                                minLength: 1,
+                                textInputType: TextInputType.number,
+                                filteringTextInputFormatter:
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                check: false,
+                                prefixIcon: Icons.add_road_rounded,
+                                hideCheckMark: true),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: MyTextField(
+                                controller: mileage,
+                                hintText: 'Mileage',
+                                obscureText: false,
+                                maxLength: 8,
+                                exactLength: 8,
+                                minLength: 1,
+                                textInputType: TextInputType.number,
+                                filteringTextInputFormatter:
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                check: false,
+                                prefixIcon: Icons.add_road_rounded,
+                                hideCheckMark: true),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: MyTextField(
+                                controller: power,
+                                hintText: 'Power',
+                                obscureText: false,
+                                maxLength: 8,
+                                exactLength: 8,
+                                minLength: 1,
+                                textInputType: TextInputType.number,
+                                filteringTextInputFormatter:
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                check: false,
+                                prefixIcon: Icons.add_road_rounded,
+                                hideCheckMark: true),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: MyTextField(
+                                controller: engine,
+                                hintText: 'Engine',
+                                obscureText: false,
+                                maxLength: 8,
+                                exactLength: 8,
+                                minLength: 1,
+                                textInputType: TextInputType.number,
+                                filteringTextInputFormatter:
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                check: false,
+                                prefixIcon: Icons.add_road_rounded,
+                                hideCheckMark: true),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: MyTextField(
+                                controller: seats,
+                                hintText: 'Seats',
+                                obscureText: false,
+                                maxLength: 8,
+                                exactLength: 8,
+                                minLength: 1,
+                                textInputType: TextInputType.number,
+                                filteringTextInputFormatter:
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                check: false,
+                                prefixIcon: Icons.add_road_rounded,
+                                hideCheckMark: true),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 80),
+                    SizedBox(
+                      width: 750,
+                      child: SfCircularChart(
+                        title: ChartTitle(
+                          text: 'Pie Chart',
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        legend: const Legend(
                           isVisible: true,
                           overflowMode: LegendItemOverflowMode.wrap,
                           alignment: ChartAlignment.center,
@@ -222,137 +388,184 @@ class _MyHomePageState extends State<Charts> {
                           textStyle: TextStyle(
                               color: Color.fromARGB(255, 255, 255, 255)),
                           title: LegendTitle(
-                              text: 'Cars and Fuel Types',
-                              textStyle: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold))),
-                      title: ChartTitle(
-                        text: 'Bar Chart',
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                            text: 'Fuel Types',
+                            textStyle: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      series: <ChartSeries>[
-                        BarSeries<ChartDataBar, String>(
-                            isVisible: true,
-                            color: const Color.fromARGB(255, 255, 243, 23),
-                            dataSource: chartDataBar,
-                            xValueMapper: (ChartDataBar data, _) =>
-                                data.carCompany,
-                            yValueMapper: (ChartDataBar data, _) => data.counts,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15)),
-                            width: 0.4,
-                            spacing: 0.5,
-                            name: 'Car Brands'),
-                        BarSeries<ChartDataPie, String>(
-                            isVisible: false,
-                            color: const Color.fromARGB(255, 255, 243, 23),
+                        series: <PieSeries<ChartDataPie, String>>[
+                          PieSeries<ChartDataPie, String>(
                             dataSource: chartDataDoughnut,
                             xValueMapper: (ChartDataPie data, _) =>
                                 data.fuelType,
                             yValueMapper: (ChartDataPie data, _) => data.counts,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15)),
-                            width: 0.4,
-                            spacing: 0.5,
-                            name: 'Fuels'),
-                      ],
-                      primaryXAxis: CategoryAxis(
-                        labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255,
-                              255), // Change the label color here
-                        ),
-                        majorGridLines: const MajorGridLines(
-                          color: Color.fromARGB(100, 255, 23, 124),
-                        ),
-                      ),
-                      primaryYAxis: NumericAxis(
-                        labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255,
-                              255), // Change the label color here
-                        ),
-                        majorGridLines: const MajorGridLines(
-                            color: Color.fromARGB(100, 255, 23, 124)),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 100),
-                  SizedBox(
-                    height: 500,
-                    width: 1200,
-                    child: SfCartesianChart(
-                      legend: const Legend(
-                          // Your legend configurations
-                          ),
-                      title: ChartTitle(
-                        text: 'Scatter Graph',
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
-                      series: <ChartSeries>[
-                        ScatterSeries<ChartDataScatterLine, double>(
-                            color: const Color.fromARGB(255, 255, 23, 124),
-                            dataSource: chartDataScatterLine,
-                            xValueMapper: (ChartDataScatterLine data, _) =>
-                                data.power,
-                            yValueMapper: (ChartDataScatterLine data, _) =>
-                                data.y,
-                            markerSettings: const MarkerSettings(
-                                width: 7,
-                                height: 7,
-                                shape: DataMarkerType.circle),
-                            name: 'Orig. price'),
-                        ScatterSeries<ChartDataScatterLine, double>(
-                            color: const Color.fromARGB(255, 255, 243, 23),
-                            dataSource: chartDataScatterLine,
-                            xValueMapper: (ChartDataScatterLine data, _) =>
-                                data.power,
-                            yValueMapper: (ChartDataScatterLine data, _) =>
-                                data.yhat,
-                            markerSettings: const MarkerSettings(
-                                width: 7,
-                                height: 7,
-                                shape: DataMarkerType.circle),
-                            name: 'Pred. Price'),
-                        LineSeries<ChartDataScatterLine, double>(
-                            dataSource:
-                                chartDataScatterLine, // Your data source
-                            xValueMapper: (ChartDataScatterLine data, _) =>
-                                data.power,
-                            yValueMapper: (ChartDataScatterLine data, _) => 1.7,
-                            color: const Color.fromARGB(255, 9, 58, 255),
-                            markerSettings: const MarkerSettings(
+                            dataLabelMapper: (ChartDataPie data, _) =>
+                                '${((data.counts / 6019) * 100).toStringAsFixed(2)}%',
+                            radius: '60%',
+                            dataLabelSettings: const DataLabelSettings(
+                              margin: EdgeInsets.zero,
                               isVisible: true,
-                            )),
-                      ],
-                      primaryXAxis: CategoryAxis(
-                        labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255,
-                              255), // Change the label color here
-                        ),
-                        majorGridLines: const MajorGridLines(
-                            color: Color.fromARGB(100, 255, 23, 124)),
-                      ),
-                      primaryYAxis: NumericAxis(
-                        labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255,
-                              255), // Change the label color here
-                        ),
-                        majorGridLines: const MajorGridLines(
-                            color: Color.fromARGB(100, 255, 23, 124)),
+                              textStyle:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                              labelPosition: ChartDataLabelPosition.outside,
+                              connectorLineSettings: ConnectorLineSettings(
+                                  type: ConnectorType.curve, length: '50%'),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 100),
+                    SizedBox(
+                      height: 700,
+                      width: 1200,
+                      child: SfCartesianChart(
+                        legend: const Legend(
+                            isVisible: true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                            alignment: ChartAlignment.center,
+                            backgroundColor: Color.fromARGB(255, 57, 57, 57),
+                            orientation: LegendItemOrientation.horizontal,
+                            textStyle: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                            title: LegendTitle(
+                                text: 'Cars and Fuel Types',
+                                textStyle: TextStyle(
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold))),
+                        title: ChartTitle(
+                          text: 'Bar Chart',
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        series: <ChartSeries>[
+                          BarSeries<ChartDataBar, String>(
+                              isVisible: true,
+                              color: const Color.fromARGB(255, 255, 243, 23),
+                              dataSource: chartDataBar,
+                              xValueMapper: (ChartDataBar data, _) =>
+                                  data.carCompany,
+                              yValueMapper: (ChartDataBar data, _) =>
+                                  data.counts,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                              width: 0.4,
+                              spacing: 0.5,
+                              name: 'Car Brands'),
+                          BarSeries<ChartDataPie, String>(
+                              isVisible: false,
+                              color: const Color.fromARGB(255, 255, 243, 23),
+                              dataSource: chartDataDoughnut,
+                              xValueMapper: (ChartDataPie data, _) =>
+                                  data.fuelType,
+                              yValueMapper: (ChartDataPie data, _) =>
+                                  data.counts,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                              width: 0.4,
+                              spacing: 0.5,
+                              name: 'Fuels'),
+                        ],
+                        primaryXAxis: CategoryAxis(
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255,
+                                255), // Change the label color here
+                          ),
+                          majorGridLines: const MajorGridLines(
+                            color: Color.fromARGB(100, 255, 23, 124),
+                          ),
+                        ),
+                        primaryYAxis: NumericAxis(
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255,
+                                255), // Change the label color here
+                          ),
+                          majorGridLines: const MajorGridLines(
+                              color: Color.fromARGB(100, 255, 23, 124)),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 100),
+                    SizedBox(
+                      height: 500,
+                      width: 1200,
+                      child: SfCartesianChart(
+                        legend: const Legend(
+                            // Your legend configurations
+                            ),
+                        title: ChartTitle(
+                          text: 'Scatter Graph',
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        series: <ChartSeries>[
+                          ScatterSeries<ChartDataScatterLine, double>(
+                              color: const Color.fromARGB(255, 255, 23, 124),
+                              dataSource: chartDataScatterLine,
+                              xValueMapper: (ChartDataScatterLine data, _) =>
+                                  data.power,
+                              yValueMapper: (ChartDataScatterLine data, _) =>
+                                  data.y,
+                              markerSettings: const MarkerSettings(
+                                  width: 7,
+                                  height: 7,
+                                  shape: DataMarkerType.circle),
+                              name: 'Orig. price'),
+                          ScatterSeries<ChartDataScatterLine, double>(
+                              color: const Color.fromARGB(255, 255, 243, 23),
+                              dataSource: chartDataScatterLine,
+                              xValueMapper: (ChartDataScatterLine data, _) =>
+                                  data.power,
+                              yValueMapper: (ChartDataScatterLine data, _) =>
+                                  data.yhat,
+                              markerSettings: const MarkerSettings(
+                                  width: 7,
+                                  height: 7,
+                                  shape: DataMarkerType.circle),
+                              name: 'Pred. Price'),
+                          LineSeries<ChartDataScatterLine, double>(
+                              dataSource:
+                                  chartDataScatterLine, // Your data source
+                              xValueMapper: (ChartDataScatterLine data, _) =>
+                                  data.power,
+                              yValueMapper: (ChartDataScatterLine data, _) =>
+                                  1.7,
+                              color: const Color.fromARGB(255, 9, 58, 255),
+                              markerSettings: const MarkerSettings(
+                                isVisible: true,
+                              )),
+                        ],
+                        primaryXAxis: CategoryAxis(
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255,
+                                255), // Change the label color here
+                          ),
+                          majorGridLines: const MajorGridLines(
+                              color: Color.fromARGB(100, 255, 23, 124)),
+                        ),
+                        primaryYAxis: NumericAxis(
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255,
+                                255), // Change the label color here
+                          ),
+                          majorGridLines: const MajorGridLines(
+                              color: Color.fromARGB(100, 255, 23, 124)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }
