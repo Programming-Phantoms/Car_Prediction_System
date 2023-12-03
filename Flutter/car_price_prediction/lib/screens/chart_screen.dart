@@ -108,7 +108,7 @@ class _MyHomePageState extends State<Charts> {
                   'Fetching Data...',
                   style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 )
               ],
