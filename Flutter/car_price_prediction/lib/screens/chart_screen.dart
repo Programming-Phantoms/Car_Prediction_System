@@ -282,7 +282,7 @@ class _MyHomePageState extends State<Charts> {
                       yValueMapper: (ChartDataScatterLine data, _) => data.y,
                       markerSettings: const MarkerSettings(
                           width: 7, height: 7, shape: DataMarkerType.circle),
-                      name: 'Orignal price'),
+                      name: 'Orig. price'),
                   ScatterSeries<ChartDataScatterLine, double>(
                       color: const Color.fromARGB(255, 255, 243, 23),
                       dataSource: chartDataScatterLine,
@@ -291,7 +291,7 @@ class _MyHomePageState extends State<Charts> {
                       yValueMapper: (ChartDataScatterLine data, _) => data.yhat,
                       markerSettings: const MarkerSettings(
                           width: 7, height: 7, shape: DataMarkerType.circle),
-                      name: 'Predicted Price'),
+                      name: 'Pred. Price'),
                 ],
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
