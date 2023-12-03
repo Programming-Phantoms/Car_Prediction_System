@@ -14,7 +14,7 @@ class Charts extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<Charts> {
-  final List<ChartDataPie> chartDataPie = [];
+  final List<ChartDataDoughnut> chartDataDoughnut = [];
   final List<ChartDataBar> chartDataBar = [];
   final List<ChartDataScatterLine> chartDataScatterLine = [];
   bool barChart = false;
@@ -28,10 +28,10 @@ class _MyHomePageState extends State<Charts> {
       () {
         List<dynamic> fuelType = result['result']['pie_chart_data']['labels'];
         List<dynamic> fuelCount = result['result']['pie_chart_data']['values'];
-        chartDataPie.clear();
+        chartDataDoughnut.clear();
         for (int i = 0; i < fuelType.length; i++) {
-          chartDataPie.add(
-            ChartDataPie(
+          chartDataDoughnut.add(
+            ChartDataDoughnut(
               fuelType: fuelType[i],
               counts: fuelCount[i],
               color:
@@ -139,11 +139,11 @@ class _MyHomePageState extends State<Charts> {
                             fontSize: 14,
                             fontWeight: FontWeight.bold))),
                 series: <CircularSeries>[
-                  DoughnutSeries<ChartDataPie, String>(
-                    dataSource: chartDataPie,
-                    pointColorMapper: (ChartDataPie data, _) => data.color,
-                    xValueMapper: (ChartDataPie data, _) => data.fuelType,
-                    yValueMapper: (ChartDataPie data, _) => data.counts,
+                  DoughnutSeries<ChartDataDoughnut, String>(
+                    dataSource: chartDataDoughnut,
+                    pointColorMapper: (ChartDataDoughnut data, _) => data.color,
+                    xValueMapper: (ChartDataDoughnut data, _) => data.fuelType,
+                    yValueMapper: (ChartDataDoughnut data, _) => data.counts,
                     radius: '80%',
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
                   ),
@@ -179,7 +179,7 @@ class _MyHomePageState extends State<Charts> {
                 series: <ChartSeries>[
                   BarSeries<ChartDataBar, String>(
                     isVisible: true,
-                    color: const Color.fromARGB(150, 255, 243, 23),
+                    color: const Color.fromARGB(255, 255, 243, 23),
                     dataSource: chartDataBar,
                     xValueMapper: (ChartDataBar data, _) => data.carCompany,
                     yValueMapper: (ChartDataBar data, _) => data.counts,
@@ -187,12 +187,12 @@ class _MyHomePageState extends State<Charts> {
                     width: 0.4,
                     spacing: 0.5,
                   ),
-                  BarSeries<ChartDataPie, String>(
+                  BarSeries<ChartDataDoughnut, String>(
                     isVisible: false,
-                    color: const Color.fromARGB(150, 255, 243, 23),
-                    dataSource: chartDataPie,
-                    xValueMapper: (ChartDataPie data, _) => data.fuelType,
-                    yValueMapper: (ChartDataPie data, _) => data.counts,
+                    color: const Color.fromARGB(255, 255, 243, 23),
+                    dataSource: chartDataDoughnut,
+                    xValueMapper: (ChartDataDoughnut data, _) => data.fuelType,
+                    yValueMapper: (ChartDataDoughnut data, _) => data.counts,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     width: 0.4,
                     spacing: 0.5,
@@ -204,7 +204,7 @@ class _MyHomePageState extends State<Charts> {
                         255, 255, 255, 255), // Change the label color here
                   ),
                   majorGridLines: const MajorGridLines(
-                    color: Color.fromARGB(100, 255, 77, 23),
+                    color: Color.fromARGB(100, 255, 23, 124),
                   ),
                 ),
                 primaryYAxis: NumericAxis(
@@ -213,7 +213,7 @@ class _MyHomePageState extends State<Charts> {
                         255, 255, 255, 255), // Change the label color here
                   ),
                   majorGridLines: const MajorGridLines(
-                      color: Color.fromARGB(100, 255, 77, 23)),
+                      color: Color.fromARGB(100, 255, 23, 124)),
                 ),
               ),
             ),
@@ -245,13 +245,13 @@ class _MyHomePageState extends State<Charts> {
                 ),
                 series: <ChartSeries>[
                   ScatterSeries<ChartDataScatterLine, double>(
-                    color: const Color.fromARGB(150, 255, 77, 23),
+                    color: const Color.fromARGB(255, 255, 23, 124),
                     dataSource: chartDataScatterLine,
                     xValueMapper: (ChartDataScatterLine data, _) => data.power,
                     yValueMapper: (ChartDataScatterLine data, _) => data.y,
                   ),
                   ScatterSeries<ChartDataScatterLine, double>(
-                    color: const Color.fromARGB(150, 255, 243, 23),
+                    color: const Color.fromARGB(255, 255, 243, 23),
                     dataSource: chartDataScatterLine,
                     xValueMapper: (ChartDataScatterLine data, _) => data.power,
                     yValueMapper: (ChartDataScatterLine data, _) => data.yhat,
@@ -277,12 +277,12 @@ class _MyHomePageState extends State<Charts> {
   }
 }
 
-class ChartDataPie {
+class ChartDataDoughnut {
   final String fuelType;
   final int counts;
   final Color color;
 
-  ChartDataPie(
+  ChartDataDoughnut(
       {required this.fuelType, required this.counts, required this.color});
 }
 
