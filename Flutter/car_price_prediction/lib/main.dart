@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import './chart.dart';
 import './home.dart';
 
@@ -18,13 +15,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Car Price Prediction',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 236, 26, 26)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Car Price Prediction'),
       routes: {
-        Charts.routeName: (context) => Charts(title: 'Car Price Prediction'),
+        Charts.routeName: (context) =>
+            const Charts(title: 'Car Price Prediction'),
       },
     );
   }
@@ -42,11 +38,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+    return const Scaffold(
+      backgroundColor: Color.fromARGB(255, 38, 38, 38),
       body: Home(title: 'Car Price Prediction'),
     );
   }

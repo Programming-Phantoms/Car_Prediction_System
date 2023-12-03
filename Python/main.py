@@ -6,73 +6,60 @@ from sklearn.linear_model import LinearRegression
 
 app = Flask(__name__)
 
-# Load your CSV file
-car = pd.read_csv('Cleaned_Car_data.csv')
-
+car = pd.read_csv('carsdf.csv')
 @app.route('/')
 def train_linear_regression():
-    # Extracting features and target variable
-    X = car[['name', 'company', 'kms_driven', 'fuel_type']]
-    y = car['Price']
+    import pandas as pd
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.linear_model import LinearRegression
 
-    # Convert categorical variable 'fuel_type' to dummy variables
-    X = pd.get_dummies(X, columns=['fuel_type'], drop_first=True)
+    df = pd.read_csv('encoded_x3.csv')
+    X = df.drop('Price_Log', axis=1)
+    y = df['Price_Log']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+   # print(X_test[:,5].tolist())
+   #  scaler = StandardScaler()
+   #  X_train = scaler.fit_transform(X_train)
+   #  X_test = scaler.transform(X_test)
 
-    # Convert categorical variable 'company' to dummy variables
-    X = pd.get_dummies(X, columns=['company'], drop_first=True)
-
-    # Drop 'name' column as it might not contribute to the model
-    X = X.drop('name', axis=1)
-
-    # Splitting the dataset into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Creating and training the linear regression model
     model = LinearRegression()
     model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+
     # Count the number of cars for each company
-    company_counts = car['company'].value_counts()
+    company_counts = car['Brand'].value_counts()
 
     # Plot the bar chart
     plt.bar(company_counts.index, company_counts.values, color='skyblue')
-
-    # Get the required values for drawing the plot
-    bar_chart_data = {
-        'labels': company_counts.index.tolist(),
-        'values': company_counts.values.tolist()
-    }
+    plt.xlabel('Company')
+    plt.ylabel('Number of Cars')
+    plt.title('Number of Cars per Company')
 
     # Save the bar chart image
     plt.savefig('bar_chart.png')
-
-    # Close the plot to prevent it from being displayed
-    plt.close()
-    # Get the coefficients
-    plt.subplots(figsize=(8, 8))
+    # plt.close()
 
     # Count the number of cars for each fuel type
-    fuel_counts = car['fuel_type'].value_counts()
+    fuel_counts = car['Fuel_Type'].value_counts()
 
     # Plot the pie chart
     plt.pie(fuel_counts, labels=fuel_counts.index, autopct='%1.1f%%', startangle=90)
-
-    # Get the required values for drawing the plot
-    pie_chart_data = {
-        'labels': fuel_counts.index.tolist(),
-        'values': fuel_counts.values.tolist()
-    }
+    plt.title('Distribution of Cars by Fuel Type')
 
     # Save the pie chart image
     plt.savefig('pie_chart.png')
-
-    # Close the plot to prevent it from being displayed
     plt.close()
+    results = {
+        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients':model.coef_.tolist(),'x_axis':X_test['Kilometers_Driven'].tolist()},
+        'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
+        'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()},
 
-    results = {'intercept': model.intercept_, 'coefficients': dict(zip(X.columns, model.coef_)),'bar_chart_data':bar_chart_data,'pie_chart_data':pie_chart_data}
-
+    }
 
     return jsonify({'result': results})
 
+
 if __name__ == '__main__':
     # Run the Flask application
-    app.run()
+    app.run(debug=True)
