@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd77d254-3234-441f-a346-bf64d9422649" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cleaned_Car_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bar_chart.png" beforeDir="false" afterPath="$PROJECT_DIR$/bar_chart.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/screens/chart_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/screens/chart_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pie_chart.png" beforeDir="false" afterPath="$PROJECT_DIR$/pie_chart.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

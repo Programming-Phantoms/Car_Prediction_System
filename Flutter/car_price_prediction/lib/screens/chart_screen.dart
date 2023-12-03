@@ -71,8 +71,8 @@ class _MyHomePageState extends State<Charts> {
           chartDataScatterLine.add(
             ChartDataScatterLine(
                 power: power[i],
-                y: (y[i] <= 0) ? 0.25 : y[i],
-                yhat: (yhat[i] <= 0) ? 0.25 : yhat[i]),
+                y: (y[i] <= 0) ? 0.00000082389626505374 : y[i],
+                yhat: (yhat[i] <= 0) ? 0.00000082389626505374 : yhat[i]),
           );
         }
       },
@@ -286,19 +286,8 @@ class _MyHomePageState extends State<Charts> {
                     width: 1200,
                     child: SfCartesianChart(
                       legend: const Legend(
-                          isVisible: true,
-                          overflowMode: LegendItemOverflowMode.wrap,
-                          alignment: ChartAlignment.center,
-                          backgroundColor: Color.fromARGB(255, 57, 57, 57),
-                          orientation: LegendItemOrientation.horizontal,
-                          textStyle: TextStyle(
-                              color: Color.fromARGB(255, 255, 255, 255)),
-                          title: LegendTitle(
-                              text: 'Y and YHAT',
-                              textStyle: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold))),
+                          // Your legend configurations
+                          ),
                       title: ChartTitle(
                         text: 'Scatter Graph',
                         textStyle: const TextStyle(
@@ -332,6 +321,16 @@ class _MyHomePageState extends State<Charts> {
                                 height: 7,
                                 shape: DataMarkerType.circle),
                             name: 'Pred. Price'),
+                        LineSeries<ChartDataScatterLine, double>(
+                            dataSource:
+                                chartDataScatterLine, // Your data source
+                            xValueMapper: (ChartDataScatterLine data, _) =>
+                                data.power,
+                            yValueMapper: (ChartDataScatterLine data, _) => 1.7,
+                            color: const Color.fromARGB(255, 9, 58, 255),
+                            markerSettings: const MarkerSettings(
+                              isVisible: true,
+                            )),
                       ],
                       primaryXAxis: CategoryAxis(
                         labelStyle: const TextStyle(
@@ -343,7 +342,8 @@ class _MyHomePageState extends State<Charts> {
                       ),
                       primaryYAxis: NumericAxis(
                         labelStyle: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: Color.fromARGB(255, 255, 255,
+                              255), // Change the label color here
                         ),
                         majorGridLines: const MajorGridLines(
                             color: Color.fromARGB(100, 255, 23, 124)),
