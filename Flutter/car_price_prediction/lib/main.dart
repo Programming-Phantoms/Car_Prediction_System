@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './chart.dart';
-import './home.dart';
+import './screens/chart_screen.dart';
+import './screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());

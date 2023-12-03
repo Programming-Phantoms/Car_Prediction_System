@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'chart.dart';
+import 'chart_screen.dart';
 
 class Home extends StatefulWidget {
   static String routeName = '/home-page';
@@ -42,7 +41,7 @@ class _MyHomePageState extends State<Home> {
           ),
           const SizedBox(height: 30),
           const Text(
-            'Here you can predict the car price with more accuracy\nOur modal is trained on 30 unique car brands',
+            'Here you can predict the car price with more accuracy\nOur prediction modal is trained on 30 unique car brands',
             style: TextStyle(
                 fontSize: 16, color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,
