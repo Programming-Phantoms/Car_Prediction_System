@@ -197,13 +197,13 @@ class _MyDropdownState extends State<MyDropdown> {
             }
             /********************Owner Type*********************/
             if (val == 'First') {
-              ChartsClass.transmission = val.toString();
+              ChartsClass.ownerType = val.toString();
             } else if (val == 'Second') {
-              ChartsClass.transmission = val.toString();
+              ChartsClass.ownerType = val.toString();
             } else if (val == 'Third') {
-              ChartsClass.transmission = val.toString();
-            } else if (val == 'Fourth & above') {
-              ChartsClass.transmission = val.toString();
+              ChartsClass.ownerType = val.toString();
+            } else if (val == 'Fourth & Above') {
+              ChartsClass.ownerType = val.toString();
             }
             /********************Location*********************/
             if (val == 'Bangalore') {

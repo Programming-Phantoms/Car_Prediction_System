@@ -113,7 +113,7 @@ class ChartsClass extends State<Charts> {
   }
 
   void predict() {
-    double yearP = 1.0 * parameters[0];
+    double yearP = double.parse(ChartsClass.year) * parameters[0];
     double kilometerP = double.parse(ChartsClass.kilometer) * parameters[1];
     double mileageP = double.parse(ChartsClass.mileageStr) * parameters[2];
     double engineP = double.parse(ChartsClass.engineStr) * parameters[3];
@@ -149,11 +149,11 @@ class ChartsClass extends State<Charts> {
         break;
       }
     }
-    double ownerTypeP = 1.0 * 0.052826855;
+    double ownerTypeP = 1.0 * parameters[i];
     print(
         '$yearP $kilometerP $mileageP $engineP $powerP $seatsP $locP $fuelTypeP $carBrandP $transmissionP $ownerTypeP');
     setState(() {
-      result = (0.10761931532135419 +
+      result = (-255.6113982542954 +
               yearP +
               kilometerP +
               mileageP +
@@ -166,6 +166,7 @@ class ChartsClass extends State<Charts> {
               transmissionP +
               ownerTypeP)
           .toStringAsFixed(2);
+      print(result);
     });
   }
 
@@ -303,6 +304,7 @@ class ChartsClass extends State<Charts> {
                                   'Ford',
                                   'Force',
                                   'Honda',
+                                  'Hyundai',
                                   'Isuzu',
                                   'Jaguar',
                                   'Jeep',
@@ -353,7 +355,7 @@ class ChartsClass extends State<Charts> {
                                   'First',
                                   'Second',
                                   'Third',
-                                  'Fourth & above'
+                                  'Fourth & Above'
                                 ],
                                 prefixIcon: Icons.people_sharp),
                           ),
@@ -413,7 +415,7 @@ class ChartsClass extends State<Charts> {
                                 textInputType: TextInputType.number,
                                 filteringTextInputFormatter:
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]')),
+                                        RegExp(r'[0-9.]')),
                                 check: false,
                                 prefixIcon: Icons.car_crash_rounded,
                                 hideCheckMark: true),
@@ -430,7 +432,7 @@ class ChartsClass extends State<Charts> {
                                 textInputType: TextInputType.number,
                                 filteringTextInputFormatter:
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]')),
+                                        RegExp(r'[0-9.]')),
                                 check: false,
                                 prefixIcon: Icons.power_outlined,
                                 hideCheckMark: true),
