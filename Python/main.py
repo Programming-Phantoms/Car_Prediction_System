@@ -1,3 +1,4 @@
+import numpy as np
 from flask import Flask, jsonify
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -51,8 +52,21 @@ def train_linear_regression():
     plt.savefig('pie_chart.png')
     plt.close()
     pre_data = pd.read_csv('Prediction_Data.csv')
+    #Confidence interval
+
+    def CI(X, confidence_level=0.95):
+        n = X.shape[0]
+        mean = np.mean(X)
+        std = np.std(X, ddof=1)  # Use ddof=1 for sample standard deviation
+
+        lower = mean - 1.960 * (np.std(X) / np.sqrt(X.shape[0]))
+        upper = mean + 1.960 * (np.std(X) / np.sqrt(X.shape[0]))
+
+        return lower, upper
+
+    lower, upper = CI(y_pred)
     results = {
-        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients': model.coef_.tolist(),'x_axis': X_test['Kilometers_Driven'].tolist(), 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist()},
+        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients': model.coef_.tolist(),'x_axis': X_test['Kilometers_Driven'].tolist(), 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist(), 'CI_L':lower,'CI_U':upper},
         'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
         'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()},
 

@@ -127,14 +127,37 @@ class ChartsClass extends State<Charts> {
     }
     double locP = 1.0 * parameters[i];
     for (i = 0; i < variables.length; i++) {
-      if (variables[i] == 'Location_${ChartsClass.carBrand}') {
+      if (variables[i] == 'Fuel_Type_${ChartsClass.fuelType}') {
+        break;
+      }
+    }
+    double fuelTypeP = 1.0 * parameters[i];
+    for (i = 0; i < variables.length; i++) {
+      if (variables[i] == 'Brand_${ChartsClass.carBrand}') {
         break;
       }
     }
     double carBrandP = 1.0 * parameters[i];
-    double locP = 1.0 * parameters[i];
+    double transmissionP = 1.0 * parameters[21];
+    for (i = 0; i < variables.length; i++) {
+      if (variables[i] == 'Owner_Type_${ChartsClass.ownerType}') {
+        break;
+      }
+    }
+    double ownerTypeP = 1.0 * parameters[i];
     setState(() {
-      result = (yearP + kilometerP + mileageP + engineP + powerP + seatsP)
+      result = (0.00000082389626505374 +
+              yearP +
+              kilometerP +
+              mileageP +
+              engineP +
+              powerP +
+              seatsP +
+              locP +
+              fuelTypeP +
+              carBrandP +
+              transmissionP +
+              ownerTypeP)
           .toStringAsFixed(2);
     });
   }
@@ -215,7 +238,7 @@ class ChartsClass extends State<Charts> {
                         ]),
                       ],
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 10),
                     const Text('Price Prediction Parameters',
                         style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -308,18 +331,18 @@ class ChartsClass extends State<Charts> {
                                 ],
                                 prefixIcon: Icons.filter_alt_rounded),
                           ),
-                          SizedBox(
+                          /*SizedBox(
                             width: 230,
                             child: MyDropdown(
                                 hintText: 'Transmission Type',
                                 list: ['Automatic', 'Manual'],
                                 prefixIcon: Icons.transform),
-                          ),
+                          ),*/
                           SizedBox(
                             width: 220,
                             child: MyDropdown(
                                 hintText: 'Owner Type',
-                                list: ['Second', 'Third', 'Fourth or above'],
+                                list: ['Second', 'Third', 'Fourth & above'],
                                 prefixIcon: Icons.people_sharp),
                           ),
                           SizedBox(
@@ -448,12 +471,43 @@ class ChartsClass extends State<Charts> {
                         icon: Icons.gamepad_outlined,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(height: 50),
+                    Row(children: [
+                      const SizedBox(width: 50),
+                      const SizedBox(
                         child: Text(
-                      result,
-                      style:
-                          TextStyle(color: Color.fromARGB(255, 255, 243, 23)),
-                    )),
+                          'Predicted Price:',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        child: Text(
+                          result,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 243, 23),
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ]),
+                    const Row(
+                      children: [
+                        SizedBox(width: 50),
+                        SizedBox(
+                          child: Text(
+                            'Note: This predicted price is 95% accurate if it lies between lower and upper bounds of predictive modal values.',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 80),
                     SizedBox(
                       width: 750,

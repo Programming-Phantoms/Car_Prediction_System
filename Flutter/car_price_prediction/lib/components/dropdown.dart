@@ -200,7 +200,7 @@ class _MyDropdownState extends State<MyDropdown> {
               ChartsClass.transmission = val.toString();
             } else if (val == 'Third') {
               ChartsClass.transmission = val.toString();
-            } else if (val == 'Fourth or above') {
+            } else if (val == 'Fourth & above') {
               ChartsClass.transmission = val.toString();
             }
             /********************Location*********************/
