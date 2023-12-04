@@ -69,9 +69,9 @@ class _MyTextFieldState extends State<MyTextField> {
                 } else if (widget.hintText == 'Power') {
                   ChartsClass.powerStr = text.toString();
                 } else if (widget.hintText == 'Engine') {
-                  ChartsClass.powerStr = text.toString();
+                  ChartsClass.engineStr = text.toString();
                 } else if (widget.hintText == 'Seats') {
-                  ChartsClass.powerStr = text.toString();
+                  ChartsClass.seatStr = text.toString();
                 }
               },
         controller: widget.controller,

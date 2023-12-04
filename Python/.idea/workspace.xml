@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd77d254-3234-441f-a346-bf64d9422649" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/components/dropdown.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/components/dropdown.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/components/text_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/components/text_field.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/screens/chart_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Flutter/car_price_prediction/lib/screens/chart_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Prediction_Data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/encoded_x3.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

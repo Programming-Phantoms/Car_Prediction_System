@@ -96,8 +96,8 @@ class ChartsClass extends State<Charts> {
           chartDataScatterLine.add(
             ChartDataScatterLine(
                 power: power[i],
-                y: (y[i] <= 0) ? 0.00000082389626505374 : y[i],
-                yhat: (yhat[i] <= 0) ? 0.00000082389626505374 : yhat[i]),
+                y: (y[i] <= 0) ? 0.10761931532135419 : y[i],
+                yhat: (yhat[i] <= 0) ? 0.10761931532135419 : yhat[i]),
           );
         }
 
@@ -113,40 +113,47 @@ class ChartsClass extends State<Charts> {
   }
 
   void predict() {
-    double yearP = double.parse(ChartsClass.year) * parameters[0];
+    double yearP = 1.0 * parameters[0];
     double kilometerP = double.parse(ChartsClass.kilometer) * parameters[1];
     double mileageP = double.parse(ChartsClass.mileageStr) * parameters[2];
-    double engineP = double.parse(ChartsClass.kilometer) * parameters[3];
-    double powerP = double.parse(ChartsClass.kilometer) * parameters[4];
-    double seatsP = double.parse(ChartsClass.kilometer) * parameters[5];
+    double engineP = double.parse(ChartsClass.engineStr) * parameters[3];
+    double powerP = double.parse(ChartsClass.powerStr) * parameters[4];
+    double seatsP = double.parse(ChartsClass.seatStr) * parameters[5];
     int i = 0;
     for (i = 0; i < variables.length; i++) {
-      if (variables[i] == 'Location_${ChartsClass.location}') {
+      if (variables[i] == 'Encoded_${ChartsClass.location}') {
         break;
       }
     }
     double locP = 1.0 * parameters[i];
     for (i = 0; i < variables.length; i++) {
-      if (variables[i] == 'Fuel_Type_${ChartsClass.fuelType}') {
+      if (variables[i] == 'Encoded_${ChartsClass.fuelType}') {
         break;
       }
     }
     double fuelTypeP = 1.0 * parameters[i];
     for (i = 0; i < variables.length; i++) {
-      if (variables[i] == 'Brand_${ChartsClass.carBrand}') {
+      if (variables[i] == 'Encoded_${ChartsClass.carBrand}') {
         break;
       }
     }
     double carBrandP = 1.0 * parameters[i];
-    double transmissionP = 1.0 * parameters[21];
+    double transmissionP = 0;
+    if (ChartsClass.transmission == 'Automatic') {
+      transmissionP = 1.0 * parameters[22];
+    } else if (ChartsClass.transmission == 'Manual') {
+      transmissionP = 1.0 * parameters[23];
+    }
     for (i = 0; i < variables.length; i++) {
-      if (variables[i] == 'Owner_Type_${ChartsClass.ownerType}') {
+      if (variables[i] == 'Encoded_${ChartsClass.ownerType}') {
         break;
       }
     }
-    double ownerTypeP = 1.0 * parameters[i];
+    double ownerTypeP = 1.0 * 0.052826855;
+    print(
+        '$yearP $kilometerP $mileageP $engineP $powerP $seatsP $locP $fuelTypeP $carBrandP $transmissionP $ownerTypeP');
     setState(() {
-      result = (0.00000082389626505374 +
+      result = (0.10761931532135419 +
               yearP +
               kilometerP +
               mileageP +
@@ -331,18 +338,23 @@ class ChartsClass extends State<Charts> {
                                 ],
                                 prefixIcon: Icons.filter_alt_rounded),
                           ),
-                          /*SizedBox(
+                          SizedBox(
                             width: 230,
                             child: MyDropdown(
                                 hintText: 'Transmission Type',
                                 list: ['Automatic', 'Manual'],
                                 prefixIcon: Icons.transform),
-                          ),*/
+                          ),
                           SizedBox(
                             width: 220,
                             child: MyDropdown(
                                 hintText: 'Owner Type',
-                                list: ['Second', 'Third', 'Fourth & above'],
+                                list: [
+                                  'First',
+                                  'Second',
+                                  'Third',
+                                  'Fourth & above'
+                                ],
                                 prefixIcon: Icons.people_sharp),
                           ),
                           SizedBox(
@@ -649,7 +661,7 @@ class ChartsClass extends State<Charts> {
                           ),
                         ),
                         series: <ChartSeries>[
-                          ScatterSeries<ChartDataScatterLine, double>(
+                          ScatterSeries<ChartDataScatterLine, int>(
                               color: const Color.fromARGB(255, 255, 23, 124),
                               dataSource: chartDataScatterLine,
                               xValueMapper: (ChartDataScatterLine data, _) =>
@@ -661,7 +673,7 @@ class ChartsClass extends State<Charts> {
                                   height: 7,
                                   shape: DataMarkerType.circle),
                               name: 'Orig. price'),
-                          ScatterSeries<ChartDataScatterLine, double>(
+                          ScatterSeries<ChartDataScatterLine, int>(
                               color: const Color.fromARGB(255, 255, 243, 23),
                               dataSource: chartDataScatterLine,
                               xValueMapper: (ChartDataScatterLine data, _) =>
@@ -673,7 +685,7 @@ class ChartsClass extends State<Charts> {
                                   height: 7,
                                   shape: DataMarkerType.circle),
                               name: 'Pred. Price'),
-                          LineSeries<ChartDataScatterLine, double>(
+                          LineSeries<ChartDataScatterLine, int>(
                               dataSource:
                                   chartDataScatterLine, // Your data source
                               xValueMapper: (ChartDataScatterLine data, _) =>
@@ -728,7 +740,7 @@ class ChartDataBar {
 }
 
 class ChartDataScatterLine {
-  final double power;
+  final int power;
   final double y;
   final double yhat;
 

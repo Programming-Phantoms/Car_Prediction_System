@@ -196,7 +196,9 @@ class _MyDropdownState extends State<MyDropdown> {
               ChartsClass.transmission = val.toString();
             }
             /********************Owner Type*********************/
-            if (val == 'Second') {
+            if (val == 'First') {
+              ChartsClass.transmission = val.toString();
+            } else if (val == 'Second') {
               ChartsClass.transmission = val.toString();
             } else if (val == 'Third') {
               ChartsClass.transmission = val.toString();
