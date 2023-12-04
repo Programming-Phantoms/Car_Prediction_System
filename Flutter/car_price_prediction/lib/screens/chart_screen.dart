@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../components/dropdown.dart';
+import '../components/button.dart';
 
 class Charts extends StatefulWidget {
   static String routeName = '/chart-page';
@@ -14,19 +15,34 @@ class Charts extends StatefulWidget {
   final String title;
 
   @override
-  State<Charts> createState() => _MyHomePageState();
+  State<Charts> createState() => ChartsClass();
 }
 
-class _MyHomePageState extends State<Charts> {
+class ChartsClass extends State<Charts> {
   final List<ChartDataPie> chartDataDoughnut = [];
   final List<ChartDataBar> chartDataBar = [];
   final List<ChartDataScatterLine> chartDataScatterLine = [];
+  List<dynamic> parameters = [];
+  List<dynamic> variables = [];
   bool loading = true;
   final kilometerDriven = TextEditingController();
   final mileage = TextEditingController();
   final engine = TextEditingController();
   final power = TextEditingController();
   final seats = TextEditingController();
+  static String year = '';
+  static String carBrand = '';
+  static String fuelType = '';
+  static String transmission = '';
+  static String ownerType = '';
+  static String location = '';
+  static String kilometer = '';
+  static String mileageStr = '';
+  static String powerStr = '';
+  static String engineStr = '';
+  static String seatStr = '';
+
+  String result = '0';
 
   Future<void> _simulateLoading() async {
     setState(() {
@@ -39,7 +55,7 @@ class _MyHomePageState extends State<Charts> {
   }
 
   Future<void> loadData() async {
-    var uri = 'https://bilaltariq360.github.io/Car_Price_Prediction/';
+    var uri = 'http://127.0.0.1:5000';
 
     final res = await http.get(Uri.parse(uri));
     final result = json.decode(res.body) as Map<String, dynamic>;
@@ -84,6 +100,9 @@ class _MyHomePageState extends State<Charts> {
                 yhat: (yhat[i] <= 0) ? 0.00000082389626505374 : yhat[i]),
           );
         }
+
+        parameters = result['result']['LRM']['Parameters'];
+        variables = result['result']['LRM']['Variables'];
       },
     );
     _simulateLoading();
@@ -91,6 +110,33 @@ class _MyHomePageState extends State<Charts> {
 
   void goHome() {
     Navigator.pop(context);
+  }
+
+  void predict() {
+    double yearP = double.parse(ChartsClass.year) * parameters[0];
+    double kilometerP = double.parse(ChartsClass.kilometer) * parameters[1];
+    double mileageP = double.parse(ChartsClass.mileageStr) * parameters[2];
+    double engineP = double.parse(ChartsClass.kilometer) * parameters[3];
+    double powerP = double.parse(ChartsClass.kilometer) * parameters[4];
+    double seatsP = double.parse(ChartsClass.kilometer) * parameters[5];
+    int i = 0;
+    for (i = 0; i < variables.length; i++) {
+      if (variables[i] == 'Location_${ChartsClass.location}') {
+        break;
+      }
+    }
+    double locP = 1.0 * parameters[i];
+    for (i = 0; i < variables.length; i++) {
+      if (variables[i] == 'Location_${ChartsClass.carBrand}') {
+        break;
+      }
+    }
+    double carBrandP = 1.0 * parameters[i];
+    double locP = 1.0 * parameters[i];
+    setState(() {
+      result = (yearP + kilometerP + mileageP + engineP + powerP + seatsP)
+          .toStringAsFixed(2);
+    });
   }
 
   @override
@@ -183,9 +229,9 @@ class _MyHomePageState extends State<Charts> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                            width: 210,
+                            width: 180,
                             child: MyDropdown(
-                                hintText: 'Select Year',
+                                hintText: 'Year',
                                 list: [
                                   '1998',
                                   '1999',
@@ -215,7 +261,7 @@ class _MyHomePageState extends State<Charts> {
                           SizedBox(
                             width: 250,
                             child: MyDropdown(
-                                hintText: 'Select Car Brand',
+                                hintText: 'Car Brand',
                                 list: [
                                   'Audi',
                                   'Ambassador',
@@ -250,25 +296,49 @@ class _MyHomePageState extends State<Charts> {
                                 prefixIcon: CupertinoIcons.car_detailed),
                           ),
                           SizedBox(
-                            width: 250,
+                            width: 210,
                             child: MyDropdown(
-                                hintText: 'Select Fuel Type',
-                                list: ['CNG', 'Diesel', 'LPG', 'Petrol'],
+                                hintText: 'Fuel Type',
+                                list: [
+                                  'CNG',
+                                  'Diesel',
+                                  'Electric',
+                                  'LPG',
+                                  'Petrol'
+                                ],
                                 prefixIcon: Icons.filter_alt_rounded),
                           ),
                           SizedBox(
-                            width: 270,
+                            width: 230,
                             child: MyDropdown(
                                 hintText: 'Transmission Type',
                                 list: ['Automatic', 'Manual'],
                                 prefixIcon: Icons.transform),
                           ),
                           SizedBox(
-                            width: 270,
+                            width: 220,
                             child: MyDropdown(
                                 hintText: 'Owner Type',
                                 list: ['Second', 'Third', 'Fourth or above'],
                                 prefixIcon: Icons.people_sharp),
+                          ),
+                          SizedBox(
+                            width: 210,
+                            child: MyDropdown(
+                                hintText: 'Location',
+                                list: [
+                                  'Bangalore',
+                                  'Chennai',
+                                  'Coimbatore',
+                                  'Delhi',
+                                  'Hyderabad',
+                                  'Jaipur',
+                                  'Kochi',
+                                  'Kolkata',
+                                  'Mumbai',
+                                  'Pune'
+                                ],
+                                prefixIcon: CupertinoIcons.location_fill),
                           ),
                         ],
                       ),
@@ -310,7 +380,7 @@ class _MyHomePageState extends State<Charts> {
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'[0-9]')),
                                 check: false,
-                                prefixIcon: Icons.add_road_rounded,
+                                prefixIcon: Icons.car_crash_rounded,
                                 hideCheckMark: true),
                           ),
                           SizedBox(
@@ -327,7 +397,7 @@ class _MyHomePageState extends State<Charts> {
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'[0-9]')),
                                 check: false,
-                                prefixIcon: Icons.add_road_rounded,
+                                prefixIcon: Icons.power_outlined,
                                 hideCheckMark: true),
                           ),
                           SizedBox(
@@ -344,7 +414,7 @@ class _MyHomePageState extends State<Charts> {
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'[0-9]')),
                                 check: false,
-                                prefixIcon: Icons.add_road_rounded,
+                                prefixIcon: Icons.energy_savings_leaf_outlined,
                                 hideCheckMark: true),
                           ),
                           SizedBox(
@@ -361,12 +431,29 @@ class _MyHomePageState extends State<Charts> {
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'[0-9]')),
                                 check: false,
-                                prefixIcon: Icons.add_road_rounded,
+                                prefixIcon: Icons.chair_alt_outlined,
                                 hideCheckMark: true),
                           )
                         ],
                       ),
                     ),
+                    const SizedBox(height: 100),
+                    SizedBox(
+                      width: 300,
+                      child: MyButton(
+                        btnText: 'Predict',
+                        onTap: predict,
+                        backgroudColor: const Color.fromARGB(255, 255, 243, 23),
+                        foregroudColor: const Color.fromARGB(255, 38, 38, 38),
+                        icon: Icons.gamepad_outlined,
+                      ),
+                    ),
+                    SizedBox(
+                        child: Text(
+                      result,
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 255, 243, 23)),
+                    )),
                     const SizedBox(height: 80),
                     SizedBox(
                       width: 750,

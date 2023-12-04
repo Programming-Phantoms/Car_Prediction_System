@@ -50,8 +50,9 @@ def train_linear_regression():
     # Save the pie chart image
     plt.savefig('pie_chart.png')
     plt.close()
+    pre_data = pd.read_csv('Prediction_Data.csv')
     results = {
-        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients':model.coef_.tolist(),'x_axis':X_test['Kilometers_Driven'].tolist()},
+        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients': model.coef_.tolist(),'x_axis': X_test['Kilometers_Driven'].tolist(), 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist()},
         'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
         'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()},
 

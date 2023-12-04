@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../screens/chart_screen.dart';
+
 class MyTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
@@ -57,64 +59,40 @@ class _MyTextFieldState extends State<MyTextField> {
         maxLines: (widget.multiline != null) ? widget.multiline : 1,
         keyboardType: widget.textInputType,
         inputFormatters: [widget.filteringTextInputFormatter],
-        onChanged: (widget.hideCheckMark)
+        onChanged: (!widget.hideCheckMark)
             ? null
             : (text) {
-                if (widget.hintText == 'Password') {
-                  /*LoginPage.passwordForConfirmPassword = text;
-                  if (passwordValidator(text)) {
-                    setState(() {
-                      widget.check = true;
-                    });
-                  } else {
-                    setState(() {
-                      widget.check = false;
-                    });
-                  }*/
-                } else if (widget.hintText == 'Confirm Password') {
-                  /*if (text == LoginPage.passwordForConfirmPassword &&
-                      text.isNotEmpty) {
-                    setState(() {
-                      widget.check = true;
-                    });
-                  } else {
-                    setState(() {
-                      widget.check = false;
-                    });
-                  }*/
-                } else {
-                  if ((text.length >= widget.minLength &&
-                          text.length <= widget.maxLength) ||
-                      text.length == widget.exactLength) {
-                    setState(() {
-                      widget.check = true;
-                    });
-                  } else {
-                    setState(() {
-                      widget.check = false;
-                    });
-                  }
+                if (widget.hintText == 'Kilometer Driven') {
+                  ChartsClass.kilometer = text.toString();
+                } else if (widget.hintText == 'Mileage') {
+                  ChartsClass.mileageStr = text.toString();
+                } else if (widget.hintText == 'Power') {
+                  ChartsClass.powerStr = text.toString();
+                } else if (widget.hintText == 'Engine') {
+                  ChartsClass.powerStr = text.toString();
+                } else if (widget.hintText == 'Seats') {
+                  ChartsClass.powerStr = text.toString();
                 }
               },
         controller: widget.controller,
-        cursorColor: Color.fromARGB(255, 255, 243, 23),
-        style: TextStyle(color: Color.fromARGB(255, 255, 243, 23)),
+        cursorColor: const Color.fromARGB(255, 255, 243, 23),
+        style: const TextStyle(color: Color.fromARGB(255, 255, 243, 23)),
         obscureText: widget.obscureText,
         maxLength: (widget.hideCheckMark) ? 50 : widget.maxLength,
         decoration: InputDecoration(
           counterText: '',
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Color.fromARGB(255, 255, 243, 23)),
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Color.fromARGB(255, 255, 243, 23)),
           ),
           fillColor: Colors.transparent,
           filled: true,
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Color.fromARGB(255, 255, 243, 23)),
-          prefixIcon:
-              Icon(widget.prefixIcon, color: Color.fromARGB(255, 255, 243, 23)),
+          hintStyle: const TextStyle(color: Color.fromARGB(255, 255, 243, 23)),
+          prefixIcon: Icon(widget.prefixIcon,
+              color: const Color.fromARGB(255, 255, 243, 23)),
           suffixIcon: (widget.hintText == 'Password' ||
                   widget.hintText == 'Confirm Password')
               ? SizedBox(
@@ -123,7 +101,7 @@ class _MyTextFieldState extends State<MyTextField> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Icon((widget.check) ? Icons.check : null,
-                          color: Color.fromARGB(255, 255, 243, 23)),
+                          color: const Color.fromARGB(255, 255, 243, 23)),
                       IconButton(
                         onPressed: () {
                           setState(() {
@@ -142,7 +120,7 @@ class _MyTextFieldState extends State<MyTextField> {
                                       widget.hintText == 'Confirm Password')
                                   ? CupertinoIcons.eye_fill
                                   : null),
-                          color: Color.fromARGB(255, 255, 243, 23),
+                          color: const Color.fromARGB(255, 255, 243, 23),
                         ),
                       ),
                     ],
