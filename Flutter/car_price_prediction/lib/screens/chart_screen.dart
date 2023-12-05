@@ -114,7 +114,6 @@ class ChartsClass extends State<Charts> {
             result['result']['histogram_of_price_Log']['hist']['values'];
         chartHistogram.clear();
         for (int i = 0; i < histBinEdges.length - 1; i++) {
-          print(i);
           chartHistogram.add(
             ChartHistogram(
               binEdgesY: histBinEdges[i],
@@ -185,13 +184,7 @@ class ChartsClass extends State<Charts> {
               transmissionP +
               ownerTypeP)
           .toStringAsFixed(2);
-      print(result);
     });
-  }
-
-  double normalDistribution(double x, double mean, double stdDev) {
-    final exponent = -0.5 * pow((x - mean) / stdDev, 2);
-    return (1 / (stdDev * sqrt(2 * pi))) * exp(exponent);
   }
 
   @override
@@ -666,9 +659,148 @@ class ChartsClass extends State<Charts> {
                                 255), // Change the label color here
                           ),
                           majorGridLines: const MajorGridLines(
-                              color: Color.fromARGB(100, 255, 23, 124)),
+                            color: Color.fromARGB(100, 255, 23, 124),
+                          ),
                         ),
                       ),
+                    ),
+                    const SizedBox(height: 100),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.add_road_rounded,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'Kilometer Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.power_outlined,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'Power Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.energy_savings_leaf_outlined,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'Engine Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.filter_alt_rounded,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'Diesel Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                CupertinoIcons.car_detailed,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'BMW Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                CupertinoIcons.car_detailed,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'Coimbatore Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        InkWell(
+                          mouseCursor: SystemMouseCursors.progress,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.chair_alt_outlined,
+                                size: 50,
+                                color: Color.fromARGB(255, 255, 243, 23),
+                              ),
+                              Text(
+                                'Seats Scatter',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 100),
                     SizedBox(
@@ -725,17 +857,17 @@ class ChartsClass extends State<Charts> {
                                   height: 7,
                                   shape: DataMarkerType.circle),
                               name: 'Pred. Price'),
-                          LineSeries<ChartDataScatterLine, int>(
-                              dataSource:
-                                  chartDataScatterLine, // Your data source
-                              xValueMapper: (ChartDataScatterLine data, _) =>
-                                  data.power,
-                              yValueMapper: (ChartDataScatterLine data, _) =>
-                                  1.7,
-                              color: const Color.fromARGB(255, 9, 58, 255),
-                              markerSettings: const MarkerSettings(
-                                isVisible: true,
-                              )),
+                          /*LineSeries<ChartDataScatterLine, int>(
+                            dataSource:
+                                chartDataScatterLine, // Your data source
+                            xValueMapper: (ChartDataScatterLine data, _) =>
+                                data.power,
+                            yValueMapper: (ChartDataScatterLine data, _) => 1.7,
+                            color: const Color.fromARGB(255, 9, 58, 255),
+                            markerSettings: const MarkerSettings(
+                              isVisible: true,
+                            ),
+                          ),*/
                         ],
                         primaryXAxis: CategoryAxis(
                           title: AxisTitle(
@@ -834,6 +966,12 @@ class ChartsClass extends State<Charts> {
       ),
     );
   }
+}
+
+class ChartData {
+  ChartData(this.x, this.y);
+  final double x;
+  final double y;
 }
 
 class ChartDataPie {
