@@ -735,31 +735,29 @@ class ChartsClass extends State<Charts> {
                       ),
                     ),
                     SizedBox(
-                      height: 400,
+                      height: 1000,
                       child: SfCartesianChart(
                         primaryXAxis: NumericAxis(
-                          majorGridLines: MajorGridLines(width: 0.5),
-                          minimum: -100,
-                          maximum: 445,
-                          interval: 15,
+                          majorGridLines: MajorGridLines(width: 0.25),
+                          maximum: 6,
+                          minimum: -3,
+                          interval: 1,
                         ),
                         primaryYAxis: NumericAxis(
-                            minimum: -0.1, maximum: 15, interval: 1),
-                        series: <HistogramSeries<ChartHistogram, double>>[
-                          HistogramSeries<ChartHistogram, double>(
-                            name: 'Score',
+                          majorGridLines: MajorGridLines(width: 0.25),
+                        ),
+                        series: <ColumnSeries<ChartHistogram, double>>[
+                          ColumnSeries<ChartHistogram, double>(
+                            name: 'Histogram',
                             dataSource: chartHistogram,
-                            binInterval: 22,
-                            showNormalDistributionCurve: true,
-                            curveDashArray: <double>[12, 3, 3, 3],
-                            width: 0.8,
-                            curveWidth: 5,
-                            curveColor: Colors.red,
+                            xValueMapper: (ChartHistogram data, _) =>
+                                data.binEdgesY,
                             yValueMapper: (ChartHistogram data, _) =>
                                 data.values,
+                            width: 1,
                             dataLabelSettings: const DataLabelSettings(
                               isVisible: true,
-                              labelAlignment: ChartDataLabelAlignment.bottom,
+                              labelAlignment: ChartDataLabelAlignment.top,
                               textStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
