@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
+
 app = Flask(__name__)
 
 car = pd.read_csv('carsdf.csv')
@@ -12,21 +13,28 @@ car = pd.read_csv('carsdf.csv')
 def train_linear_regression():
     import pandas as pd
     from sklearn.model_selection import train_test_split
+    import statsmodels.api as sm
     from sklearn.preprocessing import StandardScaler
     from sklearn.linear_model import LinearRegression
 
     df = pd.read_csv('encoded.csv')
-    X = df.drop('Price_Log', axis=1)
-    y = df['Price_Log']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-   # print(X_test[:,5].tolist())
-   #  scaler = StandardScaler()
-   #  X_train = scaler.fit_transform(X_train)
-   #  X_test = scaler.transform(X_test)
 
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
+    # Assuming 'Price_Log' is the target variable
+    X = df.drop(['Price_Log', 'Price'], axis=1)
+    y = df['Price_Log']
+
+    #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
+    # Add a constant term for the intercept
+    X_train_statsmodels = sm.add_constant(X)
+    model_statsmodels = sm.OLS(y, X_train_statsmodels).fit()
+
+    # Ensure X_test has the same columns as X_train_statsmodels
+    X_test_statsmodels = sm.add_constant(X)
+    X_test_statsmodels = X_test_statsmodels[X_train_statsmodels.columns]  # Align columns
+
+    # Predict with the statsmodels model
+    y_pre = model_statsmodels.predict(X_test_statsmodels)
 
     # Count the number of cars for each company
     company_counts = car['Brand'].value_counts()
@@ -55,29 +63,54 @@ def train_linear_regression():
     #Confidence interval
 
     def CI(X, confidence_level=0.95):
-        n = X.shape[0]
-        mean = np.mean(X)
-        std = np.std(X, ddof=1)  # Use ddof=1 for sample standard deviation
 
-        lower = mean - 1.960 * (np.std(X) / np.sqrt(X.shape[0]))
-        upper = mean + 1.960 * (np.std(X) / np.sqrt(X.shape[0]))
+        meann = np.mean(X)
+        stdd = np.std(X, ddof=1)
 
+        lower = meann - (0.1915 * stdd)
+        upper = meann + (0.1915 * stdd)
         return lower, upper
 
-    lower, upper = CI(y_pred)
-    hist_values, bin_edges, _ = plt.hist(df['Price_Log'], bins='auto')
+    lower, upper = CI(y_pre)
+    hist_values_Price_Log, bin_edges_Price_Log, _ = plt.hist(df['Price_Log'], bins='auto')
+    hist_values_Year, bin_edges_Year, _ = plt.hist(df['Year'], bins='auto')
+    hist_values_Kilometers_Driven, bin_edges_Kilometers_Driven, _ = plt.hist(df['Kilometers_Driven'], bins='auto')
 
+    hist_values_Engine, bin_edges_Engine, _ = plt.hist(df['Engine'], bins='auto')
+    hist_values_Mileage, bin_edges_Mileage, _ = plt.hist(df['Mileage'], bins='auto')
+
+    hist_values_Seats, bin_edges_Seats, _ = plt.hist(df['Seats'], bins='auto')
+    hist_values_Power, bin_edges_Power, _ = plt.hist(df['Power'], bins='auto')
     # Prepare JSON response
     histogram_data = {
-        'values': hist_values.tolist(),
-        'bin_edges': bin_edges.tolist(),
-        'x_label': 'Price_log',
-        'y_label': 'Frequency'
+        'values_Price_Log': hist_values_Price_Log.tolist(),
+        'bin_edges_Price_Log': bin_edges_Price_Log.tolist(),
+        'hist_values_Year':hist_values_Year.tolist(),
+        'bin_edges_Year':bin_edges_Year.tolist(),
+        'hist_values_Kilometers_Driven':hist_values_Kilometers_Driven.tolist(),
+        'bin_edges_Kilometers_Driven': bin_edges_Kilometers_Driven.tolist(),
+        'hist_values_Mileage':hist_values_Mileage.tolist(),
+        'bin_edges_Mileage':bin_edges_Mileage.tolist(),
+        'hist_values_Engine':hist_values_Engine.tolist(),
+        'bin_edges_Engine':bin_edges_Engine.tolist(),
+        'hist_values_Power':hist_values_Power.tolist(),
+        'bin_edges_Power':bin_edges_Power.tolist(),
+        'hist_values_Seats': hist_values_Seats.tolist(),
+        'bin_edges_Seats':bin_edges_Seats.tolist()
+
     }
+    summary_info = {
+
+        'f_statistic': dict(
+            zip(model_statsmodels.summary().tables[0].data[0], model_statsmodels.summary().tables[0].data[1])),
+        'rsquared': float(model_statsmodels.summary().tables[0].data[6][1]),
+        'adj_rsquared': float(model_statsmodels.summary().tables[0].data[7][1]),
+
+    }
+
     results = {
-        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(), 'coefficients': model.coef_.tolist(),
-                'x_axis': X_test['Kilometers_Driven'].tolist(), 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist(), 'CI_L':lower,'CI_U':upper},
-        'heat_plot': {'correlations': df.corr().to_dict()},
+        'LRM': {'y': y.tolist(), 'yhat': y_pre.tolist(), 'coefficients_bs':   model_statsmodels.params[1:].tolist(),'constant_as':model_statsmodels.params[0].tolist(),'summary_of_model': summary_info, 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist(), 'CI_L':lower,'CI_U':upper},
+        'scatter_data': {'Year':df['Year'].tolist(),	'Kilometers_Driven':df['Kilometers_Driven'].tolist(),	'Mileage':df['Mileage'].tolist(),	'Engine':df['Engine'].tolist(),	'Power':df['Power'].tolist(),'Seats':df['Seats'].tolist()},
         'histogram_of_price_Log': {'hist': histogram_data},
         'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
         'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()}
