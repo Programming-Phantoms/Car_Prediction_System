@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:car_price_prediction/components/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -185,6 +187,11 @@ class ChartsClass extends State<Charts> {
           .toStringAsFixed(2);
       print(result);
     });
+  }
+
+  double normalDistribution(double x, double mean, double stdDev) {
+    final exponent = -0.5 * pow((x - mean) / stdDev, 2);
+    return (1 / (stdDev * sqrt(2 * pi))) * exp(exponent);
   }
 
   @override
@@ -669,8 +676,22 @@ class ChartsClass extends State<Charts> {
                       width: 1200,
                       child: SfCartesianChart(
                         legend: const Legend(
-                            // Your legend configurations
-                            ),
+                          width: '250',
+                          isVisible: true,
+                          overflowMode: LegendItemOverflowMode.wrap,
+                          alignment: ChartAlignment.center,
+                          backgroundColor: Color.fromARGB(255, 57, 57, 57),
+                          orientation: LegendItemOrientation.horizontal,
+                          textStyle: TextStyle(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                          title: LegendTitle(
+                            text: 'Cars and Fuel Types',
+                            textStyle: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                         title: ChartTitle(
                           text: 'Scatter Graph',
                           textStyle: const TextStyle(
@@ -717,6 +738,11 @@ class ChartsClass extends State<Charts> {
                               )),
                         ],
                         primaryXAxis: CategoryAxis(
+                          title: AxisTitle(
+                              text: 'Kilometers',
+                              textStyle: const TextStyle(
+                                  color: Color.fromARGB(255, 255, 243, 23),
+                                  fontWeight: FontWeight.bold)),
                           labelStyle: const TextStyle(
                             color: Color.fromARGB(255, 255, 255,
                                 255), // Change the label color here
@@ -725,6 +751,11 @@ class ChartsClass extends State<Charts> {
                               color: Color.fromARGB(100, 255, 23, 124)),
                         ),
                         primaryYAxis: NumericAxis(
+                          title: AxisTitle(
+                              text: 'Y',
+                              textStyle: const TextStyle(
+                                  color: Color.fromARGB(255, 255, 243, 23),
+                                  fontWeight: FontWeight.bold)),
                           labelStyle: const TextStyle(
                             color: Color.fromARGB(255, 255, 255,
                                 255), // Change the label color here
@@ -734,21 +765,52 @@ class ChartsClass extends State<Charts> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 100),
                     SizedBox(
-                      height: 1000,
+                      height: 500,
+                      width: 1000,
                       child: SfCartesianChart(
+                        title: ChartTitle(
+                          text: 'Histogram',
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
                         primaryXAxis: NumericAxis(
-                          majorGridLines: MajorGridLines(width: 0.25),
+                          title: AxisTitle(
+                              text: 'Price',
+                              textStyle: const TextStyle(
+                                  color: Color.fromARGB(255, 255, 243, 23),
+                                  fontWeight: FontWeight.bold)),
+                          majorGridLines: const MajorGridLines(
+                              //width: 1.5,
+                              color: Color.fromARGB(100, 255, 23, 124)),
                           maximum: 6,
                           minimum: -3,
                           interval: 1,
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
                         ),
                         primaryYAxis: NumericAxis(
-                          majorGridLines: MajorGridLines(width: 0.25),
+                          title: AxisTitle(
+                              text: 'No. of cars',
+                              textStyle: const TextStyle(
+                                  color: Color.fromARGB(255, 255, 243, 23),
+                                  fontWeight: FontWeight.bold)),
+                          majorGridLines: const MajorGridLines(
+                              //width: 1,
+                              color: Color.fromARGB(100, 255, 23, 124)),
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
                         ),
-                        series: <ColumnSeries<ChartHistogram, double>>[
+                        series: <ChartSeries>[
                           ColumnSeries<ChartHistogram, double>(
-                            name: 'Histogram',
+                            name: 'Price',
+                            color: Colors.blue,
                             dataSource: chartHistogram,
                             xValueMapper: (ChartHistogram data, _) =>
                                 data.binEdgesY,
@@ -759,7 +821,6 @@ class ChartsClass extends State<Charts> {
                               isVisible: true,
                               labelAlignment: ChartDataLabelAlignment.top,
                               textStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
