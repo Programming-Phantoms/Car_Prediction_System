@@ -65,11 +65,22 @@ def train_linear_regression():
         return lower, upper
 
     lower, upper = CI(y_pred)
-    results = {
-        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(),'coefficients': model.coef_.tolist(),'x_axis': X_test['Kilometers_Driven'].tolist(), 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist(), 'CI_L':lower,'CI_U':upper},
-        'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
-        'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()},
+    hist_values, bin_edges, _ = plt.hist(df['Price_Log'], bins='auto')
 
+    # Prepare JSON response
+    histogram_data = {
+        'values': hist_values.tolist(),
+        'bin_edges': bin_edges.tolist(),
+        'x_label': 'Price_log',
+        'y_label': 'Frequency'
+    }
+    results = {
+        'LRM': {'y': y_test.tolist(), 'yhat': y_pred.tolist(), 'coefficients': model.coef_.tolist(),
+                'x_axis': X_test['Kilometers_Driven'].tolist(), 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist(), 'CI_L':lower,'CI_U':upper},
+        'heat_plot': {'correlations': df.corr().to_dict()},
+        'histogram_of_price_Log': {'hist': histogram_data},
+        'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
+        'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()}
     }
 
     return jsonify({'result': results})

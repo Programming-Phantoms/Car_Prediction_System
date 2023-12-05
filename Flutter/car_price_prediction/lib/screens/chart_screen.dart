@@ -22,6 +22,7 @@ class ChartsClass extends State<Charts> {
   final List<ChartDataPie> chartDataDoughnut = [];
   final List<ChartDataBar> chartDataBar = [];
   final List<ChartDataScatterLine> chartDataScatterLine = [];
+  final List<ChartHistogram> chartHistogram = [];
   List<dynamic> parameters = [];
   List<dynamic> variables = [];
   bool loading = true;
@@ -55,7 +56,7 @@ class ChartsClass extends State<Charts> {
   }
 
   Future<void> loadData() async {
-    var uri = 'http://127.0.0.1:5000';
+    var uri = 'https://bilaltariq360.github.io/Car_Price_Prediction/';
 
     final res = await http.get(Uri.parse(uri));
     final result = json.decode(res.body) as Map<String, dynamic>;
@@ -103,6 +104,22 @@ class ChartsClass extends State<Charts> {
 
         parameters = result['result']['LRM']['Parameters'];
         variables = result['result']['LRM']['Variables'];
+
+        List<dynamic> histBinEdges =
+            result['result']['histogram_of_price_Log']['hist']['bin_edges'];
+
+        List<dynamic> histValues =
+            result['result']['histogram_of_price_Log']['hist']['values'];
+        chartHistogram.clear();
+        for (int i = 0; i < histBinEdges.length - 1; i++) {
+          print(i);
+          chartHistogram.add(
+            ChartHistogram(
+              binEdgesY: histBinEdges[i],
+              values: histValues[i],
+            ),
+          );
+        }
       },
     );
     _simulateLoading();
@@ -717,6 +734,41 @@ class ChartsClass extends State<Charts> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 400,
+                      child: SfCartesianChart(
+                        primaryXAxis: NumericAxis(
+                          majorGridLines: MajorGridLines(width: 0.5),
+                          minimum: -100,
+                          maximum: 445,
+                          interval: 15,
+                        ),
+                        primaryYAxis: NumericAxis(
+                            minimum: -0.1, maximum: 15, interval: 1),
+                        series: <HistogramSeries<ChartHistogram, double>>[
+                          HistogramSeries<ChartHistogram, double>(
+                            name: 'Score',
+                            dataSource: chartHistogram,
+                            binInterval: 22,
+                            showNormalDistributionCurve: true,
+                            curveDashArray: <double>[12, 3, 3, 3],
+                            width: 0.8,
+                            curveWidth: 5,
+                            curveColor: Colors.red,
+                            yValueMapper: (ChartHistogram data, _) =>
+                                data.values,
+                            dataLabelSettings: const DataLabelSettings(
+                              isVisible: true,
+                              labelAlignment: ChartDataLabelAlignment.bottom,
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -748,4 +800,11 @@ class ChartDataScatterLine {
 
   ChartDataScatterLine(
       {required this.power, required this.y, required this.yhat});
+}
+
+class ChartHistogram {
+  final double binEdgesY;
+  final double values;
+
+  ChartHistogram({required this.binEdgesY, required this.values});
 }
