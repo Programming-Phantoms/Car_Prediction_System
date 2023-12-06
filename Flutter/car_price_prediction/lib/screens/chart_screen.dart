@@ -55,6 +55,48 @@ class ChartsClass extends State<Charts> {
 
   String result = '0';
 
+  final List<String> carNames = [
+    'Year',
+    'KMS',
+    'Mileage',
+    'Engine',
+    'Power',
+    'Seats',
+  ];
+
+  final List<Icon> carIcons = [
+    const Icon(
+      Icons.arrow_drop_up,
+      color: Colors.green,
+      size: 35,
+    ),
+    const Icon(
+      Icons.arrow_drop_down,
+      color: Colors.red,
+      size: 35,
+    ),
+    const Icon(
+      Icons.arrow_drop_down,
+      color: Colors.red,
+      size: 35,
+    ),
+    const Icon(
+      Icons.arrow_drop_up,
+      color: Colors.green,
+      size: 35,
+    ),
+    const Icon(
+      Icons.arrow_drop_up,
+      color: Colors.green,
+      size: 35,
+    ),
+    const Icon(
+      Icons.arrow_drop_up,
+      color: Colors.green,
+      size: 35,
+    ),
+  ];
+
   Future<void> _simulateLoading() async {
     setState(() {
       loading = true;
@@ -602,6 +644,48 @@ class ChartsClass extends State<Charts> {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 80),
+                    const Text('Parameters relation with price',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 50),
+                    SizedBox(
+                      child: DataTable(
+                        dataRowHeight: 28,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white, // Set the border color
+                            width: 2.0, // Set the border thickness
+                          ),
+                        ),
+                        columns: const [
+                          DataColumn(
+                              label: Text(
+                            'Name',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'Relation',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ],
+                        rows: List<DataRow>.generate(
+                          carNames.length,
+                          (index) => DataRow(
+                            cells: [
+                              DataCell(Text(
+                                carNames[index],
+                                style: TextStyle(color: Colors.white),
+                              )),
+                              DataCell(carIcons[index]),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 80),
                     SizedBox(
