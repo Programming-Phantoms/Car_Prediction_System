@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:car_price_prediction/components/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,13 +24,15 @@ class ChartsClass extends State<Charts> {
   final List<ChartDataBar> chartDataBar = [];
   List<dynamic> y = [];
   final List<ChartDataScatterLine> chartDataScatterLine = [];
-  final List<ChartHistogram> chartHistogramKilometer = [];
   final List<ChartDataScatterLine> chartScatterPower = [];
   final List<ChartDataScatterLine> chartScatterEngine = [];
-  final List<ChartDataScatterLine> chartScatterDiesel = [];
   final List<ChartDataScatterLine> chartScatterMileage = [];
   final List<ChartDataScatterLine> chartScatterSeats = [];
-  final List<ChartDataScatterLine> chartScatterYear = [];
+  final List<ChartHistogram> chartHistogramKilometer = [];
+  final List<ChartHistogram> chartHistogramEngine = [];
+  final List<ChartHistogram> chartHistogramPower = [];
+  final List<ChartHistogram> chartHistogramMilage = [];
+  final List<ChartHistogram> chartHistogramSeats = [];
   List<dynamic> parameters = [];
   List<dynamic> variables = [];
   bool loadingMainChartPage = true;
@@ -226,17 +226,6 @@ class ChartsClass extends State<Charts> {
           );
         }
 
-        List<dynamic> year = result['result']['scatter_data']['Year'];
-        chartScatterYear.clear();
-        for (int i = 0; i < year.length; i++) {
-          chartScatterYear.add(
-            ChartDataScatterLine(
-                xAxis: double.parse(year[i].toString()),
-                y: y[i],
-                yhat: yhat[i]),
-          );
-        }
-
         List<dynamic> power = result['result']['scatter_data']['Power'];
         chartScatterPower.clear();
         for (int i = 0; i < power.length; i++) {
@@ -379,7 +368,7 @@ class ChartsClass extends State<Charts> {
                                   shape: BoxShape.circle,
                                   color: Color.fromARGB(255, 255, 243, 23)),
                               child: const Icon(
-                                Icons.file_download_rounded,
+                                CupertinoIcons.refresh_thick,
                                 color: Color.fromARGB(255, 38, 38, 38),
                                 size: 20.0,
                               ),
@@ -389,7 +378,7 @@ class ChartsClass extends State<Charts> {
                         ]),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 40),
                     const Text('Price Prediction Parameters',
                         style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -651,12 +640,13 @@ class ChartsClass extends State<Charts> {
                         ),
                       ),
                     ]),
-                    const Row(
-                      children: [
-                        SizedBox(width: 50),
-                        SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
-                          child: SizedBox(
+                    const SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 50),
+                          SizedBox(
                             child: Text(
                               'Note: This predicted price is 95% accurate if it lies between lower and upper bounds of predictive modal values.',
                               style: TextStyle(
@@ -665,8 +655,9 @@ class ChartsClass extends State<Charts> {
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 20),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 80),
                     const Text('Parameters relation with price',
@@ -832,148 +823,6 @@ class ChartsClass extends State<Charts> {
                           majorGridLines: const MajorGridLines(
                             color: Color.fromARGB(100, 255, 23, 124),
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 100),
-                    SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  scatter = 'Mileage';
-                                  _simulateLoading(3);
-                                });
-                              },
-                              mouseCursor: SystemMouseCursors.progress,
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.car_crash,
-                                    size: 50,
-                                    color: (scatter == 'Mileage')
-                                        ? const Color.fromARGB(
-                                            255, 255, 23, 124)
-                                        : const Color.fromARGB(
-                                            255, 255, 243, 23),
-                                  ),
-                                  Text(
-                                    'Mileage Scatter',
-                                    style: TextStyle(
-                                        color: (scatter == 'Mileage')
-                                            ? const Color.fromARGB(
-                                                255, 255, 23, 124)
-                                            : const Color.fromARGB(
-                                                255, 255, 243, 23),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 40),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  scatter = 'Power';
-                                  _simulateLoading(3);
-                                });
-                              },
-                              mouseCursor: SystemMouseCursors.progress,
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.power_outlined,
-                                    size: 50,
-                                    color: (scatter == 'Power')
-                                        ? const Color.fromARGB(
-                                            255, 255, 23, 124)
-                                        : const Color.fromARGB(
-                                            255, 255, 243, 23),
-                                  ),
-                                  Text(
-                                    'Power Scatter',
-                                    style: TextStyle(
-                                        color: (scatter == 'Power')
-                                            ? const Color.fromARGB(
-                                                255, 255, 23, 124)
-                                            : const Color.fromARGB(
-                                                255, 255, 243, 23),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 40),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  scatter = 'Engine';
-                                  _simulateLoading(3);
-                                });
-                              },
-                              mouseCursor: SystemMouseCursors.progress,
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.energy_savings_leaf_outlined,
-                                    size: 50,
-                                    color: (scatter == 'Engine')
-                                        ? const Color.fromARGB(
-                                            255, 255, 23, 124)
-                                        : const Color.fromARGB(
-                                            255, 255, 243, 23),
-                                  ),
-                                  Text(
-                                    'Engine Scatter',
-                                    style: TextStyle(
-                                        color: (scatter == 'Engine')
-                                            ? const Color.fromARGB(
-                                                255, 255, 23, 124)
-                                            : const Color.fromARGB(
-                                                255, 255, 243, 23),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 40),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  scatter = 'Seats';
-                                  _simulateLoading(3);
-                                });
-                              },
-                              mouseCursor: SystemMouseCursors.progress,
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.chair_alt_outlined,
-                                    size: 50,
-                                    color: (scatter == 'Seats')
-                                        ? const Color.fromARGB(
-                                            255, 255, 23, 124)
-                                        : const Color.fromARGB(
-                                            255, 255, 243, 23),
-                                  ),
-                                  Text(
-                                    'Seats Scatter',
-                                    style: TextStyle(
-                                        color: (scatter == 'Seats')
-                                            ? const Color.fromARGB(
-                                                255, 255, 23, 124)
-                                            : const Color.fromARGB(
-                                                255, 255, 243, 23),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
@@ -1228,6 +1077,138 @@ class ChartsClass extends State<Charts> {
                               ),
                             ),
                           ),
+                    const SizedBox(height: 25),
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: 20),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Mileage';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.car_crash,
+                                  size: 35,
+                                  color: (scatter == 'Mileage')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Mileage Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Mileage')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 70),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Power';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.power_outlined,
+                                  size: 35,
+                                  color: (scatter == 'Power')
+                                      ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                ),
+                                Text(
+                                  'Power Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Power')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 70),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Engine';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.energy_savings_leaf_outlined,
+                                  size: 35,
+                                  color: (scatter == 'Engine')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Engine Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Engine')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 70),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Seats';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.chair_alt_outlined,
+                                  size: 35,
+                                  color: (scatter == 'Seats')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Seats Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Seats')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 100),
                     SizedBox(
                       height: 500,
@@ -1288,6 +1269,137 @@ class ChartsClass extends State<Charts> {
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: 20),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Mileage';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.car_crash,
+                                  size: 35,
+                                  color: (scatter == 'Mileage')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Mileage Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Mileage')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 70),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Power';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.power_outlined,
+                                  size: 35,
+                                  color: (scatter == 'Power')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Power Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Power')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 70),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Engine';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.energy_savings_leaf_outlined,
+                                  size: 35,
+                                  color: (scatter == 'Engine')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Engine Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Engine')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 70),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                scatter = 'Seats';
+                                _simulateLoading(3);
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.chair_alt_outlined,
+                                  size: 35,
+                                  color: (scatter == 'Seats')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Seats Scatter',
+                                  style: TextStyle(
+                                      color: (scatter == 'Seats')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 20),
                         ],
                       ),
                     ),
