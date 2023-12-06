@@ -6192,7 +6192,7 @@ class ChartsClass extends State<Charts> {
         for (int i = 0; i < kilometer.length; i++) {
           chartDataScatterLine.add(
             ChartDataScatterLine(
-                x_axis: double.parse(kilometer[i].toString()),
+                xAxis: double.parse(kilometer[i].toString()),
                 y: (y[i] <= 0) ? 0.10761931532135419 : y[i],
                 yhat: (yhat[i] <= 0) ? 0.10761931532135419 : yhat[i]),
           );
@@ -6221,7 +6221,7 @@ class ChartsClass extends State<Charts> {
         for (int i = 0; i < engine.length; i++) {
           chartScatterEngine.add(
             ChartDataScatterLine(
-                x_axis: double.parse(engine[i].toString()),
+                xAxis: double.parse(engine[i].toString()),
                 y: y[i],
                 yhat: yhat[i]),
           );
@@ -6232,7 +6232,7 @@ class ChartsClass extends State<Charts> {
         for (int i = 0; i < seats.length; i++) {
           chartScatterSeats.add(
             ChartDataScatterLine(
-                x_axis: double.parse(seats[i].toString()),
+                xAxis: double.parse(seats[i].toString()),
                 y: y[i],
                 yhat: yhat[i]),
           );
@@ -6243,7 +6243,7 @@ class ChartsClass extends State<Charts> {
         for (int i = 0; i < mileage.length; i++) {
           chartScatterMileage.add(
             ChartDataScatterLine(
-                x_axis: double.parse(mileage[i].toString()),
+                xAxis: double.parse(mileage[i].toString()),
                 y: y[i],
                 yhat: yhat[i]),
           );
@@ -6254,7 +6254,7 @@ class ChartsClass extends State<Charts> {
         for (int i = 0; i < year.length; i++) {
           chartScatterYear.add(
             ChartDataScatterLine(
-                x_axis: double.parse(year[i].toString()),
+                xAxis: double.parse(year[i].toString()),
                 y: y[i],
                 yhat: yhat[i]),
           );
@@ -6265,7 +6265,7 @@ class ChartsClass extends State<Charts> {
         for (int i = 0; i < power.length; i++) {
           chartScatterPower.add(
             ChartDataScatterLine(
-                x_axis: double.parse(power[i].toString()),
+                xAxis: double.parse(power[i].toString()),
                 y: y[i],
                 yhat: yhat[i]),
           );
@@ -6700,7 +6700,7 @@ class ChartsClass extends State<Charts> {
                     const SizedBox(height: 50),
                     SizedBox(
                       child: DataTable(
-                        dataRowHeight: 28,
+                        dataRowMinHeight: 28,
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.white, // Set the border color
@@ -6725,7 +6725,7 @@ class ChartsClass extends State<Charts> {
                             cells: [
                               DataCell(Text(
                                 carNames[index],
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               )),
                               DataCell(carIcons[index]),
                             ],
@@ -6865,29 +6865,6 @@ class ChartsClass extends State<Charts> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            /*InkWell(
-                              onTap: () {
-                                setState(() {
-                                  scatter = 'Kilometers';
-                                });
-                              },
-                              mouseCursor: SystemMouseCursors.progress,
-                              child: const Column(
-                                children: [
-                                  Icon(
-                                    Icons.add_road_rounded,
-                                    size: 50,
-                                    color: Color.fromARGB(255, 255, 243, 23),
-                                  ),
-                                  Text(
-                                    'Kilometer Scatter',
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 255, 243, 23),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),*/
                             InkWell(
                               onTap: () {
                                 setState(() {
@@ -6913,13 +6890,14 @@ class ChartsClass extends State<Charts> {
                                         color: (scatter == 'Mileage')
                                             ? const Color.fromARGB(
                                                 255, 255, 23, 124)
-                                            : Color.fromARGB(255, 255, 243, 23),
+                                            : const Color.fromARGB(
+                                                255, 255, 243, 23),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(width: 40),
+                            const SizedBox(width: 40),
                             InkWell(
                               onTap: () {
                                 setState(() {
@@ -6936,7 +6914,8 @@ class ChartsClass extends State<Charts> {
                                     color: (scatter == 'Power')
                                         ? const Color.fromARGB(
                                             255, 255, 23, 124)
-                                        : Color.fromARGB(255, 255, 243, 23),
+                                        : const Color.fromARGB(
+                                            255, 255, 243, 23),
                                   ),
                                   Text(
                                     'Power Scatter',
@@ -6944,13 +6923,14 @@ class ChartsClass extends State<Charts> {
                                         color: (scatter == 'Power')
                                             ? const Color.fromARGB(
                                                 255, 255, 23, 124)
-                                            : Color.fromARGB(255, 255, 243, 23),
+                                            : const Color.fromARGB(
+                                                255, 255, 243, 23),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(width: 40),
+                            const SizedBox(width: 40),
                             InkWell(
                               onTap: () {
                                 setState(() {
@@ -6967,7 +6947,8 @@ class ChartsClass extends State<Charts> {
                                     color: (scatter == 'Engine')
                                         ? const Color.fromARGB(
                                             255, 255, 23, 124)
-                                        : Color.fromARGB(255, 255, 243, 23),
+                                        : const Color.fromARGB(
+                                            255, 255, 243, 23),
                                   ),
                                   Text(
                                     'Engine Scatter',
@@ -6975,13 +6956,14 @@ class ChartsClass extends State<Charts> {
                                         color: (scatter == 'Engine')
                                             ? const Color.fromARGB(
                                                 255, 255, 23, 124)
-                                            : Color.fromARGB(255, 255, 243, 23),
+                                            : const Color.fromARGB(
+                                                255, 255, 243, 23),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(width: 40),
+                            const SizedBox(width: 40),
                             InkWell(
                               onTap: () {
                                 setState(() {
@@ -6998,7 +6980,8 @@ class ChartsClass extends State<Charts> {
                                     color: (scatter == 'Seats')
                                         ? const Color.fromARGB(
                                             255, 255, 23, 124)
-                                        : Color.fromARGB(255, 255, 243, 23),
+                                        : const Color.fromARGB(
+                                            255, 255, 243, 23),
                                   ),
                                   Text(
                                     'Seats Scatter',
@@ -7006,7 +6989,8 @@ class ChartsClass extends State<Charts> {
                                         color: (scatter == 'Seats')
                                             ? const Color.fromARGB(
                                                 255, 255, 23, 124)
-                                            : Color.fromARGB(255, 255, 243, 23),
+                                            : const Color.fromARGB(
+                                                255, 255, 243, 23),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
@@ -7070,61 +7054,52 @@ class ChartsClass extends State<Charts> {
                                   color: Color.fromARGB(255, 255, 255, 255),
                                 ),
                               ),
-                              series: /*(scatter == 'Kilometers')
-                            ? <ChartSeries>[
-                                ScatterSeries<ChartDataScatterLine, double>(
-                                    color:
-                                        const Color.fromARGB(255, 255, 23, 124),
-                                    dataSource: chartDataScatterLine,
-                                    xValueMapper:
-                                        (ChartDataScatterLine data, _) =>
-                                            data.x_axis,
-                                    yValueMapper:
-                                        (ChartDataScatterLine data, _) =>
-                                            data.y,
-                                    markerSettings: const MarkerSettings(
-                                        width: 7,
-                                        height: 7,
-                                        shape: DataMarkerType.circle),
-                                    name: 'Orig. price'),
-                                ScatterSeries<ChartDataScatterLine, double>(
-                                    color:
-                                        const Color.fromARGB(255, 255, 243, 23),
-                                    dataSource: chartDataScatterLine,
-                                    xValueMapper:
-                                        (ChartDataScatterLine data, _) =>
-                                            data.x_axis,
-                                    yValueMapper:
-                                        (ChartDataScatterLine data, _) =>
-                                            data.yhat,
-                                    markerSettings: const MarkerSettings(
-                                        width: 7,
-                                        height: 7,
-                                        shape: DataMarkerType.circle),
-                                    name: 'Pred. Price'),
-                                /*LineSeries<ChartDataScatterLine, int>(
-                            dataSource:
-                                chartDataScatterLine, // Your data source
-                            xValueMapper: (ChartDataScatterLine data, _) =>
-                                data.power,
-                            yValueMapper: (ChartDataScatterLine data, _) => 1.7,
-                            color: const Color.fromARGB(255, 9, 58, 255),
-                            markerSettings: const MarkerSettings(
-                              isVisible: true,
-                            ),
-                          ),*/
-                              ]*/
-                                  (scatter == 'Mileage')
+                              series: (scatter == 'Mileage')
+                                  ? <ChartSeries>[
+                                      ScatterSeries<ChartDataScatterLine,
+                                              double>(
+                                          color: const Color.fromARGB(
+                                              255, 255, 23, 124),
+                                          dataSource: chartScatterMileage,
+                                          xValueMapper:
+                                              (ChartDataScatterLine data, _) =>
+                                                  data.xAxis,
+                                          yValueMapper:
+                                              (ChartDataScatterLine data, _) =>
+                                                  data.y,
+                                          markerSettings: const MarkerSettings(
+                                              width: 7,
+                                              height: 7,
+                                              shape: DataMarkerType.circle),
+                                          name: 'Orig. price'),
+                                      ScatterSeries<ChartDataScatterLine,
+                                              double>(
+                                          color: const Color.fromARGB(
+                                              255, 255, 243, 23),
+                                          dataSource: chartScatterMileage,
+                                          xValueMapper:
+                                              (ChartDataScatterLine data, _) =>
+                                                  data.xAxis,
+                                          yValueMapper:
+                                              (ChartDataScatterLine data, _) =>
+                                                  data.yhat,
+                                          markerSettings: const MarkerSettings(
+                                              width: 7,
+                                              height: 7,
+                                              shape: DataMarkerType.circle),
+                                          name: 'Pred. Price'),
+                                    ]
+                                  : (scatter == 'Engine')
                                       ? <ChartSeries>[
                                           ScatterSeries<ChartDataScatterLine,
                                                   double>(
                                               color: const Color.fromARGB(
                                                   255, 255, 23, 124),
-                                              dataSource: chartScatterMileage,
+                                              dataSource: chartScatterEngine,
                                               xValueMapper:
                                                   (ChartDataScatterLine data,
                                                           _) =>
-                                                      data.x_axis,
+                                                      data.xAxis,
                                               yValueMapper:
                                                   (ChartDataScatterLine data,
                                                           _) =>
@@ -7140,11 +7115,11 @@ class ChartsClass extends State<Charts> {
                                                   double>(
                                               color: const Color.fromARGB(
                                                   255, 255, 243, 23),
-                                              dataSource: chartScatterMileage,
+                                              dataSource: chartScatterEngine,
                                               xValueMapper:
                                                   (ChartDataScatterLine data,
                                                           _) =>
-                                                      data.x_axis,
+                                                      data.xAxis,
                                               yValueMapper:
                                                   (ChartDataScatterLine data,
                                                           _) =>
@@ -7157,22 +7132,20 @@ class ChartsClass extends State<Charts> {
                                                           .circle),
                                               name: 'Pred. Price'),
                                         ]
-                                      : (scatter == 'Engine')
+                                      : (scatter == 'Seats')
                                           ? <ChartSeries>[
                                               ScatterSeries<
                                                       ChartDataScatterLine,
                                                       double>(
                                                   color: const Color.fromARGB(
                                                       255, 255, 23, 124),
-                                                  dataSource:
-                                                      chartScatterEngine,
+                                                  dataSource: chartScatterSeats,
                                                   xValueMapper:
                                                       (ChartDataScatterLine data,
                                                               _) =>
-                                                          data.x_axis,
+                                                          data.xAxis,
                                                   yValueMapper:
-                                                      (ChartDataScatterLine
-                                                                  data,
+                                                      (ChartDataScatterLine data,
                                                               _) =>
                                                           data.y,
                                                   markerSettings:
@@ -7187,15 +7160,13 @@ class ChartsClass extends State<Charts> {
                                                       double>(
                                                   color: const Color.fromARGB(
                                                       255, 255, 243, 23),
-                                                  dataSource:
-                                                      chartScatterEngine,
+                                                  dataSource: chartScatterSeats,
                                                   xValueMapper:
                                                       (ChartDataScatterLine data,
                                                               _) =>
-                                                          data.x_axis,
+                                                          data.xAxis,
                                                   yValueMapper:
-                                                      (ChartDataScatterLine
-                                                                  data,
+                                                      (ChartDataScatterLine data,
                                                               _) =>
                                                           data.yhat,
                                                   markerSettings:
@@ -7206,103 +7177,50 @@ class ChartsClass extends State<Charts> {
                                                               .circle),
                                                   name: 'Pred. Price'),
                                             ]
-                                          : (scatter == 'Seats')
-                                              ? <ChartSeries>[
-                                                  ScatterSeries<
-                                                          ChartDataScatterLine,
-                                                          double>(
-                                                      color: const Color.fromARGB(
-                                                          255, 255, 23, 124),
-                                                      dataSource:
-                                                          chartScatterSeats,
-                                                      xValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.x_axis,
-                                                      yValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.y,
-                                                      markerSettings:
-                                                          const MarkerSettings(
-                                                              width: 7,
-                                                              height: 7,
-                                                              shape:
-                                                                  DataMarkerType
-                                                                      .circle),
-                                                      name: 'Orig. price'),
-                                                  ScatterSeries<
-                                                          ChartDataScatterLine,
-                                                          double>(
-                                                      color: const Color.fromARGB(
-                                                          255, 255, 243, 23),
-                                                      dataSource:
-                                                          chartScatterSeats,
-                                                      xValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.x_axis,
-                                                      yValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.yhat,
-                                                      markerSettings:
-                                                          const MarkerSettings(
-                                                              width: 7,
-                                                              height: 7,
-                                                              shape:
-                                                                  DataMarkerType
-                                                                      .circle),
-                                                      name: 'Pred. Price'),
-                                                ]
-                                              : <ChartSeries>[
-                                                  ScatterSeries<
-                                                          ChartDataScatterLine,
-                                                          double>(
-                                                      color: const Color.fromARGB(
-                                                          255, 255, 23, 124),
-                                                      dataSource:
-                                                          chartScatterPower,
-                                                      xValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.x_axis,
-                                                      yValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.y,
-                                                      markerSettings:
-                                                          const MarkerSettings(
-                                                              width: 7,
-                                                              height: 7,
-                                                              shape:
-                                                                  DataMarkerType
-                                                                      .circle),
-                                                      name: 'Orig. price'),
-                                                  ScatterSeries<
-                                                          ChartDataScatterLine,
-                                                          double>(
-                                                      color: const Color.fromARGB(
-                                                          255, 255, 243, 23),
-                                                      dataSource:
-                                                          chartScatterPower,
-                                                      xValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.x_axis,
-                                                      yValueMapper:
-                                                          (ChartDataScatterLine data,
-                                                                  _) =>
-                                                              data.yhat,
-                                                      markerSettings:
-                                                          const MarkerSettings(
-                                                              width: 7,
-                                                              height: 7,
-                                                              shape:
-                                                                  DataMarkerType
-                                                                      .circle),
-                                                      name: 'Pred. Price'),
-                                                ],
+                                          : <ChartSeries>[
+                                              ScatterSeries<
+                                                      ChartDataScatterLine,
+                                                      double>(
+                                                  color: const Color.fromARGB(
+                                                      255, 255, 23, 124),
+                                                  dataSource: chartScatterPower,
+                                                  xValueMapper:
+                                                      (ChartDataScatterLine data,
+                                                              _) =>
+                                                          data.xAxis,
+                                                  yValueMapper:
+                                                      (ChartDataScatterLine data,
+                                                              _) =>
+                                                          data.y,
+                                                  markerSettings:
+                                                      const MarkerSettings(
+                                                          width: 7,
+                                                          height: 7,
+                                                          shape: DataMarkerType
+                                                              .circle),
+                                                  name: 'Orig. price'),
+                                              ScatterSeries<
+                                                      ChartDataScatterLine,
+                                                      double>(
+                                                  color: const Color.fromARGB(
+                                                      255, 255, 243, 23),
+                                                  dataSource: chartScatterPower,
+                                                  xValueMapper:
+                                                      (ChartDataScatterLine data,
+                                                              _) =>
+                                                          data.xAxis,
+                                                  yValueMapper:
+                                                      (ChartDataScatterLine data,
+                                                              _) =>
+                                                          data.yhat,
+                                                  markerSettings:
+                                                      const MarkerSettings(
+                                                          width: 7,
+                                                          height: 7,
+                                                          shape: DataMarkerType
+                                                              .circle),
+                                                  name: 'Pred. Price'),
+                                            ],
                               primaryXAxis: CategoryAxis(
                                 title: AxisTitle(
                                     text: scatter,
@@ -7396,13 +7314,20 @@ class ChartsClass extends State<Charts> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 80),
+                    const SizedBox(height: 100),
                     SizedBox(
                       width: 900,
                       height: 600,
                       child: SfCartesianChart(
                         plotAreaBorderWidth: 0,
-                        title: ChartTitle(text: ''),
+                        title: ChartTitle(
+                          text: 'Whisker Chart',
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
                         primaryXAxis: CategoryAxis(
                             majorGridLines: const MajorGridLines(width: 0),
                             labelIntersectAction:
@@ -7461,12 +7386,12 @@ class ChartDataBar {
 }
 
 class ChartDataScatterLine {
-  final double x_axis;
+  final double xAxis;
   final double y;
   final double yhat;
 
   ChartDataScatterLine(
-      {required this.x_axis, required this.y, required this.yhat});
+      {required this.xAxis, required this.y, required this.yhat});
 }
 
 class ChartHistogram {
