@@ -97,7 +97,6 @@ def train_linear_regression():
         'bin_edges_Power':bin_edges_Power.tolist(),
         'hist_values_Seats': hist_values_Seats.tolist(),
         'bin_edges_Seats':bin_edges_Seats.tolist()
-
     }
     summary_info = {
 
@@ -110,7 +109,7 @@ def train_linear_regression():
 
     results = {
         'LRM': {'y': y.tolist(), 'yhat': y_pre.tolist(), 'coefficients_bs':   model_statsmodels.params[1:].tolist(),'constant_as':model_statsmodels.params[0].tolist(),'summary_of_model': summary_info, 'Variables': pre_data['Variables'].tolist(), 'Parameters': pre_data['Parameters'].tolist(), 'CI_L':lower,'CI_U':upper},
-        'scatter_data': {'Year':df['Year'].tolist(),	'Kilometers_Driven':df['Kilometers_Driven'].tolist(),	'Mileage':df['Mileage'].tolist(),	'Engine':df['Engine'].tolist(),	'Power':df['Power'].tolist(),'Seats':df['Seats'].tolist()},
+        'scatter_data': {'Year':df['Year'].tolist(), 'Kilometers_Driven':df['Kilometers_Driven'].tolist(),	'Mileage':df['Mileage'].tolist(),	'Engine':df['Engine'].tolist(),	'Power':df['Power'].tolist(),'Seats':df['Seats'].tolist()},
         'histogram_of_price_Log': {'hist': histogram_data},
         'bar_chart_data': {'labels': company_counts.index.tolist(), 'values': company_counts.values.tolist()},
         'pie_chart_data': {'labels': fuel_counts.index.tolist(), 'values': fuel_counts.values.tolist()}

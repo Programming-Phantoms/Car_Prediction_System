@@ -1,3 +1,4 @@
+import 'package:car_price_prediction/screens/more_charts.dart';
 import 'package:flutter/material.dart';
 import './screens/chart_screen.dart';
 import './screens/home_screen.dart';
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
       routes: {
         Charts.routeName: (context) =>
             const Charts(title: 'Car Price Prediction'),
+        MoreChartsMain.routeName: (context) =>
+            const MoreChartsMain(title: 'Car Price Prediction'),
       },
     );
   }

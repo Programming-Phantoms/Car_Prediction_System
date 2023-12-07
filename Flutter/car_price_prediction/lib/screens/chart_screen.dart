@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../Data/data.dart';
 import '../components/dropdown.dart';
 import '../components/button.dart';
+import 'more_charts.dart';
 
 class Charts extends StatefulWidget {
   static String routeName = '/chart-page';
@@ -54,7 +55,11 @@ class ChartsClass extends State<Charts> {
   static String engineStr = '';
   static String seatStr = '';
 
-  String scatter = 'Engine';
+  String scatter = 'Power';
+
+  String histogram = 'Price';
+
+  String whisker = 'Price';
 
   String result = '0';
 
@@ -65,6 +70,16 @@ class ChartsClass extends State<Charts> {
     'Engine',
     'Power',
     'Seats',
+  ];
+
+  final List<String> bounds = [
+    'Lower Bound',
+    'Upper Bound',
+  ];
+
+  final List<String> boundsValue = [
+    '1.6640201317877241',
+    '1.9861701221895092',
   ];
 
   final List<Icon> carIcons = [
@@ -100,11 +115,81 @@ class ChartsClass extends State<Charts> {
     ),
   ];
 
-  List<BoxAndWhiskerSeries<ChartWhisker, dynamic>> _getBoxWhiskerSeries() {
+  List<BoxAndWhiskerSeries<ChartWhisker, dynamic>> _getPriceBoxWhiskerSeries() {
     return <BoxAndWhiskerSeries<ChartWhisker, dynamic>>[
       BoxAndWhiskerSeries<ChartWhisker, dynamic>(
         dataSource: <ChartWhisker>[
           ChartWhisker('Price', Data().y, null, Colors.blue),
+        ],
+        showMean: true,
+        boxPlotMode: BoxPlotMode.exclusive,
+        borderColor: Colors.white,
+        borderWidth: 2,
+        xValueMapper: (ChartWhisker sales, _) => sales.x,
+        yValueMapper: (ChartWhisker sales, _) => sales.y,
+        pointColorMapper: (ChartWhisker sales, _) => sales.color,
+      )
+    ];
+  }
+
+  List<BoxAndWhiskerSeries<ChartWhisker, dynamic>> _getSeatsBoxWhiskerSeries() {
+    return <BoxAndWhiskerSeries<ChartWhisker, dynamic>>[
+      BoxAndWhiskerSeries<ChartWhisker, dynamic>(
+        dataSource: <ChartWhisker>[
+          ChartWhisker('Seats', Data().seats, null, Colors.blue),
+        ],
+        showMean: true,
+        boxPlotMode: BoxPlotMode.exclusive,
+        borderColor: Colors.white,
+        borderWidth: 2,
+        xValueMapper: (ChartWhisker sales, _) => sales.x,
+        yValueMapper: (ChartWhisker sales, _) => sales.y,
+        pointColorMapper: (ChartWhisker sales, _) => sales.color,
+      )
+    ];
+  }
+
+  List<BoxAndWhiskerSeries<ChartWhisker, dynamic>> _getPowerBoxWhiskerSeries() {
+    return <BoxAndWhiskerSeries<ChartWhisker, dynamic>>[
+      BoxAndWhiskerSeries<ChartWhisker, dynamic>(
+        dataSource: <ChartWhisker>[
+          ChartWhisker('Power', Data().power, null, Colors.blue),
+        ],
+        showMean: true,
+        boxPlotMode: BoxPlotMode.exclusive,
+        borderColor: Colors.white,
+        borderWidth: 2,
+        xValueMapper: (ChartWhisker sales, _) => sales.x,
+        yValueMapper: (ChartWhisker sales, _) => sales.y,
+        pointColorMapper: (ChartWhisker sales, _) => sales.color,
+      )
+    ];
+  }
+
+  List<BoxAndWhiskerSeries<ChartWhisker, dynamic>>
+      _getEngineBoxWhiskerSeries() {
+    return <BoxAndWhiskerSeries<ChartWhisker, dynamic>>[
+      BoxAndWhiskerSeries<ChartWhisker, dynamic>(
+        dataSource: <ChartWhisker>[
+          ChartWhisker('Engine', Data().engine, null, Colors.blue),
+        ],
+        showMean: true,
+        boxPlotMode: BoxPlotMode.exclusive,
+        borderColor: Colors.white,
+        borderWidth: 2,
+        xValueMapper: (ChartWhisker sales, _) => sales.x,
+        yValueMapper: (ChartWhisker sales, _) => sales.y,
+        pointColorMapper: (ChartWhisker sales, _) => sales.color,
+      )
+    ];
+  }
+
+  List<BoxAndWhiskerSeries<ChartWhisker, dynamic>>
+      _getMileageBoxWhiskerSeries() {
+    return <BoxAndWhiskerSeries<ChartWhisker, dynamic>>[
+      BoxAndWhiskerSeries<ChartWhisker, dynamic>(
+        dataSource: <ChartWhisker>[
+          ChartWhisker('Mileage', Data().mileage, null, Colors.blue),
         ],
         showMean: true,
         boxPlotMode: BoxPlotMode.exclusive,
@@ -235,6 +320,54 @@ class ChartsClass extends State<Charts> {
                 y: y[i],
                 yhat: yhat[i]),
           );
+        }
+
+        /*List<dynamic> histMileageBinEdges = result['result']
+            ['histogram_of_price_Log']['hist']['bin_edges_Price_Log'];
+        List<dynamic> histMileage = result['result']['histogram_of_price_Log']
+            ['hist']['hist_values_Mileage'];
+        chartHistogramMilage.clear();
+        for (int i = 0; i < histKilometerBinEdges.length - 1; i++) {
+          chartHistogramMilage.add(ChartHistogram(
+            binEdgesY: histKilometerBinEdges[i],
+            values: histMileage[i],
+          ));
+        }*/
+
+        List<dynamic> histEngineBinEdges = result['result']
+            ['histogram_of_price_Log']['hist']['bin_edges_Engine'];
+        List<dynamic> histEngine = result['result']['histogram_of_price_Log']
+            ['hist']['hist_values_Engine'];
+        chartHistogramEngine.clear();
+        for (int i = 0; i < histEngineBinEdges.length - 1; i++) {
+          chartHistogramEngine.add(ChartHistogram(
+            binEdgesY: histEngineBinEdges[i],
+            values: histEngine[i],
+          ));
+        }
+
+        List<dynamic> histPowerBinEdges = result['result']
+            ['histogram_of_price_Log']['hist']['bin_edges_Power'];
+        List<dynamic> histPower = result['result']['histogram_of_price_Log']
+            ['hist']['hist_values_Power'];
+        chartHistogramPower.clear();
+        for (int i = 0; i < histPowerBinEdges.length - 1; i++) {
+          chartHistogramPower.add(ChartHistogram(
+            binEdgesY: histPowerBinEdges[i],
+            values: histPower[i],
+          ));
+        }
+
+        List<dynamic> histSeatBinEdges = result['result']
+            ['histogram_of_price_Log']['hist']['bin_edges_Seats'];
+        List<dynamic> histSeat = result['result']['histogram_of_price_Log']
+            ['hist']['hist_values_Seats'];
+        chartHistogramSeats.clear();
+        for (int i = 0; i < histSeatBinEdges.length - 1; i++) {
+          chartHistogramSeats.add(ChartHistogram(
+            binEdgesY: histSeatBinEdges[i],
+            values: histSeat[i],
+          ));
         }
       },
     );
@@ -648,7 +781,7 @@ class ChartsClass extends State<Charts> {
                           SizedBox(width: 50),
                           SizedBox(
                             child: Text(
-                              'Note: This predicted price is 95% accurate if it lies between lower and upper bounds of predictive modal values.',
+                              'Note: This predicted price is 95% accurate if it lies between Confidence Interval.',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 15,
@@ -657,6 +790,52 @@ class ChartsClass extends State<Charts> {
                           ),
                           SizedBox(width: 20),
                         ],
+                      ),
+                    ),
+                    const SizedBox(height: 80),
+                    const Text('Confidence Intervals',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 50),
+                    SizedBox(
+                      child: DataTable(
+                        dataRowMinHeight: 28,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white, // Set the border color
+                            width: 2.0, // Set the border thickness
+                          ),
+                        ),
+                        columns: const [
+                          DataColumn(
+                              label: Text(
+                            'Confidence Type',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'Confidence Value',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ],
+                        rows: List<DataRow>.generate(
+                          bounds.length,
+                          (index) => DataRow(
+                            cells: [
+                              DataCell(Text(
+                                bounds[index],
+                                style: const TextStyle(color: Colors.white),
+                              )),
+                              DataCell(Text(
+                                boundsValue[index],
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 243, 23)),
+                              )),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 80),
@@ -1129,9 +1308,8 @@ class ChartsClass extends State<Charts> {
                                   Icons.power_outlined,
                                   size: 35,
                                   color: (scatter == 'Power')
-                                      ? const Color.fromARGB(
-                                              255, 255, 243, 23)
-                                          : Colors.white,
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
                                 ),
                                 Text(
                                   'Power Scatter',
@@ -1224,15 +1402,35 @@ class ChartsClass extends State<Charts> {
                         ),
                         primaryXAxis: NumericAxis(
                           title: AxisTitle(
-                              text: 'Price',
+                              text: histogram,
                               textStyle: const TextStyle(
                                   color: Color.fromARGB(255, 255, 243, 23),
                                   fontWeight: FontWeight.bold)),
                           majorGridLines: const MajorGridLines(
                               //width: 1.5,
                               color: Color.fromARGB(100, 255, 23, 124)),
-                          maximum: 6,
-                          minimum: -3,
+                          minimum: (histogram == 'Price')
+                              ? -1.2
+                              : (histogram == 'Engine')
+                                  ? 10
+                                  : (histogram == 'Mileage')
+                                      ? 0
+                                      : (histogram == 'Power')
+                                          ? 10
+                                          : (histogram == 'Seat')
+                                              ? 0
+                                              : 0,
+                          maximum: (histogram == 'Price')
+                              ? 6
+                              : (histogram == 'Engine')
+                                  ? 6500
+                                  : (histogram == 'Mileage')
+                                      ? 35
+                                      : (histogram == 'Power')
+                                          ? 600
+                                          : (histogram == 'Seat')
+                                              ? 10
+                                              : 0,
                           interval: 1,
                           labelStyle: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -1255,7 +1453,15 @@ class ChartsClass extends State<Charts> {
                           ColumnSeries<ChartHistogram, double>(
                             name: 'Price',
                             color: Colors.blue,
-                            dataSource: chartHistogramKilometer,
+                            dataSource: (histogram == 'Engine')
+                                ? chartHistogramEngine
+                                : (histogram == 'Milage')
+                                    ? chartHistogramMilage
+                                    : (histogram == 'Power')
+                                        ? chartHistogramPower
+                                        : (histogram == 'Price')
+                                            ? chartHistogramKilometer
+                                            : chartHistogramSeats,
                             xValueMapper: (ChartHistogram data, _) =>
                                 data.binEdgesY,
                             yValueMapper: (ChartHistogram data, _) =>
@@ -1283,8 +1489,8 @@ class ChartsClass extends State<Charts> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                scatter = 'Mileage';
-                                _simulateLoading(3);
+                                histogram = 'Mileage';
+                                whisker = 'Mileage';
                               });
                             },
                             mouseCursor: SystemMouseCursors.progress,
@@ -1293,14 +1499,14 @@ class ChartsClass extends State<Charts> {
                                 Icon(
                                   Icons.car_crash,
                                   size: 35,
-                                  color: (scatter == 'Mileage')
+                                  color: (histogram == 'Mileage')
                                       ? const Color.fromARGB(255, 255, 243, 23)
                                       : Colors.white,
                                 ),
                                 Text(
-                                  'Mileage Scatter',
+                                  'Mileage Histogram',
                                   style: TextStyle(
-                                      color: (scatter == 'Mileage')
+                                      color: (histogram == 'Mileage')
                                           ? const Color.fromARGB(
                                               255, 255, 243, 23)
                                           : Colors.white,
@@ -1313,8 +1519,8 @@ class ChartsClass extends State<Charts> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                scatter = 'Power';
-                                _simulateLoading(3);
+                                histogram = 'Power';
+                                whisker = 'Power';
                               });
                             },
                             mouseCursor: SystemMouseCursors.progress,
@@ -1323,14 +1529,14 @@ class ChartsClass extends State<Charts> {
                                 Icon(
                                   Icons.power_outlined,
                                   size: 35,
-                                  color: (scatter == 'Power')
+                                  color: (histogram == 'Power')
                                       ? const Color.fromARGB(255, 255, 243, 23)
                                       : Colors.white,
                                 ),
                                 Text(
-                                  'Power Scatter',
+                                  'Power Histogram',
                                   style: TextStyle(
-                                      color: (scatter == 'Power')
+                                      color: (histogram == 'Power')
                                           ? const Color.fromARGB(
                                               255, 255, 243, 23)
                                           : Colors.white,
@@ -1343,8 +1549,9 @@ class ChartsClass extends State<Charts> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                scatter = 'Engine';
-                                _simulateLoading(3);
+                                histogram = 'Engine';
+
+                                whisker = 'Engine';
                               });
                             },
                             mouseCursor: SystemMouseCursors.progress,
@@ -1353,14 +1560,14 @@ class ChartsClass extends State<Charts> {
                                 Icon(
                                   Icons.energy_savings_leaf_outlined,
                                   size: 35,
-                                  color: (scatter == 'Engine')
+                                  color: (histogram == 'Engine')
                                       ? const Color.fromARGB(255, 255, 243, 23)
                                       : Colors.white,
                                 ),
                                 Text(
-                                  'Engine Scatter',
+                                  'Engine Histogram',
                                   style: TextStyle(
-                                      color: (scatter == 'Engine')
+                                      color: (histogram == 'Engine')
                                           ? const Color.fromARGB(
                                               255, 255, 243, 23)
                                           : Colors.white,
@@ -1370,11 +1577,11 @@ class ChartsClass extends State<Charts> {
                             ),
                           ),
                           const SizedBox(width: 70),
-                          InkWell(
+                          /*InkWell(
                             onTap: () {
                               setState(() {
-                                scatter = 'Seats';
-                                _simulateLoading(3);
+                                histogram = 'Seats';
+                                whisker = 'Seats';
                               });
                             },
                             mouseCursor: SystemMouseCursors.progress,
@@ -1383,14 +1590,43 @@ class ChartsClass extends State<Charts> {
                                 Icon(
                                   Icons.chair_alt_outlined,
                                   size: 35,
-                                  color: (scatter == 'Seats')
+                                  color: (histogram == 'Seats')
                                       ? const Color.fromARGB(255, 255, 243, 23)
                                       : Colors.white,
                                 ),
                                 Text(
-                                  'Seats Scatter',
+                                  'Seats Histogram',
                                   style: TextStyle(
                                       color: (scatter == 'Seats')
+                                          ? const Color.fromARGB(
+                                              255, 255, 243, 23)
+                                          : Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),*/
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                histogram = 'Price';
+                                whisker = 'Price';
+                              });
+                            },
+                            mouseCursor: SystemMouseCursors.progress,
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.price_change_outlined,
+                                  size: 35,
+                                  color: (histogram == 'Price')
+                                      ? const Color.fromARGB(255, 255, 243, 23)
+                                      : Colors.white,
+                                ),
+                                Text(
+                                  'Price Histogram',
+                                  style: TextStyle(
+                                      color: (scatter == 'Price')
                                           ? const Color.fromARGB(
                                               255, 255, 243, 23)
                                           : Colors.white,
@@ -1418,9 +1654,15 @@ class ChartsClass extends State<Charts> {
                           ),
                         ),
                         primaryXAxis: CategoryAxis(
-                            majorGridLines: const MajorGridLines(width: 0),
-                            labelIntersectAction:
-                                AxisLabelIntersectAction.rotate45),
+                          labelStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 255, 243, 23),
+                          ),
+                          majorGridLines: const MajorGridLines(width: 0),
+                          labelIntersectAction:
+                              AxisLabelIntersectAction.rotate45,
+                        ),
                         isTransposed: true,
                         primaryYAxis: NumericAxis(
                             title: AxisTitle(
@@ -1429,8 +1671,28 @@ class ChartsClass extends State<Charts> {
                                     color: Color.fromARGB(255, 255, 243, 23),
                                     fontWeight: FontWeight.bold)),
                             name: 'Price',
-                            minimum: -1.2,
-                            maximum: 5.5,
+                            minimum: (whisker == 'Price')
+                                ? -1.2
+                                : (whisker == 'Engine')
+                                    ? 10
+                                    : (whisker == 'Mileage')
+                                        ? 5
+                                        : (whisker == 'Power')
+                                            ? 30
+                                            : (whisker == 'Seat')
+                                                ? 0
+                                                : 0,
+                            maximum: (whisker == 'Price')
+                                ? 6
+                                : (whisker == 'Engine')
+                                    ? 6500
+                                    : (whisker == 'Mileage')
+                                        ? 35
+                                        : (whisker == 'Power')
+                                            ? 600
+                                            : (whisker == 'Seat')
+                                                ? 10
+                                                : 0,
                             majorGridLines: const MajorGridLines(
                                 //width: 1,
                                 color: Color.fromARGB(100, 255, 23, 124)),
@@ -1440,10 +1702,31 @@ class ChartsClass extends State<Charts> {
                             //interval: 10,
                             axisLine: const AxisLine(width: 0),
                             majorTickLines: const MajorTickLines(size: 0)),
-                        series: _getBoxWhiskerSeries(),
+                        series: (whisker == 'Engine')
+                            ? _getEngineBoxWhiskerSeries()
+                            : (whisker == 'Milage')
+                                ? _getMileageBoxWhiskerSeries()
+                                : (whisker == 'Power')
+                                    ? _getPowerBoxWhiskerSeries()
+                                    : (whisker == 'Price')
+                                        ? _getPriceBoxWhiskerSeries()
+                                        : _getSeatsBoxWhiskerSeries(),
                         //tooltipBehavior: _tooltipBehavior,
                       ),
                     ),
+                    const SizedBox(height: 100),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      MyButton(
+                        btnText: 'Show more charts',
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, MoreChartsMain.routeName);
+                        },
+                        backgroudColor: const Color.fromARGB(255, 255, 243, 23),
+                        foregroudColor: const Color.fromARGB(255, 38, 38, 38),
+                      ),
+                    ]),
+                    const SizedBox(height: 120),
                   ],
                 ),
               ),
