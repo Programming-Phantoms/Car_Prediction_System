@@ -322,17 +322,17 @@ class ChartsClass extends State<Charts> {
           );
         }
 
-        /*List<dynamic> histMileageBinEdges = result['result']
-            ['histogram_of_price_Log']['hist']['bin_edges_Price_Log'];
+        List<dynamic> histMileageBinEdges = result['result']
+            ['histogram_of_price_Log']['hist']['bin_edges_Mileage'];
         List<dynamic> histMileage = result['result']['histogram_of_price_Log']
             ['hist']['hist_values_Mileage'];
         chartHistogramMilage.clear();
-        for (int i = 0; i < histKilometerBinEdges.length - 1; i++) {
+        for (int i = 0; i < histMileageBinEdges.length - 1; i++) {
           chartHistogramMilage.add(ChartHistogram(
-            binEdgesY: histKilometerBinEdges[i],
+            binEdgesY: histMileageBinEdges[i],
             values: histMileage[i],
           ));
-        }*/
+        }
 
         List<dynamic> histEngineBinEdges = result['result']
             ['histogram_of_price_Log']['hist']['bin_edges_Engine'];
@@ -1455,7 +1455,7 @@ class ChartsClass extends State<Charts> {
                             color: Colors.blue,
                             dataSource: (histogram == 'Engine')
                                 ? chartHistogramEngine
-                                : (histogram == 'Milage')
+                                : (histogram == 'Mileage')
                                     ? chartHistogramMilage
                                     : (histogram == 'Power')
                                         ? chartHistogramPower
@@ -1704,7 +1704,7 @@ class ChartsClass extends State<Charts> {
                             majorTickLines: const MajorTickLines(size: 0)),
                         series: (whisker == 'Engine')
                             ? _getEngineBoxWhiskerSeries()
-                            : (whisker == 'Milage')
+                            : (whisker == 'Mileage')
                                 ? _getMileageBoxWhiskerSeries()
                                 : (whisker == 'Power')
                                     ? _getPowerBoxWhiskerSeries()
