@@ -1716,14 +1716,19 @@ class ChartsClass extends State<Charts> {
                     ),
                     const SizedBox(height: 100),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      MyButton(
-                        btnText: 'Show more charts',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, MoreChartsMain.routeName);
-                        },
-                        backgroudColor: const Color.fromARGB(255, 255, 243, 23),
-                        foregroudColor: const Color.fromARGB(255, 38, 38, 38),
+                      SizedBox(
+                        width: 300,
+                        child: MyButton(
+                          btnText: 'Show more charts',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, MoreChartsMain.routeName);
+                          },
+                          backgroudColor:
+                              const Color.fromARGB(255, 255, 243, 23),
+                          foregroudColor: const Color.fromARGB(255, 38, 38, 38),
+                          icon: Icons.more,
+                        ),
                       ),
                     ]),
                     const SizedBox(height: 120),

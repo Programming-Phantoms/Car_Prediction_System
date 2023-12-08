@@ -1,3 +1,4 @@
+import 'package:car_price_prediction/components/button.dart';
 import 'package:flutter/material.dart';
 import 'chart_screen.dart';
 
@@ -32,15 +33,15 @@ class _MyHomePageState extends State<Home> {
                 color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 50),
           Container(
             alignment: Alignment.center,
             child: Image.asset(
-              'assets/car.png',
-              width: 400,
+              'assets/logo.png',
+              width: 200,
             ),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
           const Text(
             'Here you can predict the car price with more accuracy',
             style: TextStyle(
@@ -53,27 +54,16 @@ class _MyHomePageState extends State<Home> {
                 fontSize: 16, color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: changePage,
-            style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  const Color.fromARGB(255, 255, 243, 23), // background color
-              foregroundColor: const Color.fromARGB(255, 38, 38, 38),
-              fixedSize: const Size(220, 40), // text color
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Start Prediction',
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(width: 15),
-                Icon(Icons.gamepad_outlined)
-              ],
-            ),
-          ),
+          const SizedBox(height: 60),
+          SizedBox(
+              width: 300,
+              child: MyButton(
+                btnText: 'Start Prediction',
+                onTap: changePage,
+                backgroudColor: const Color.fromARGB(255, 255, 243, 23),
+                foregroudColor: const Color.fromARGB(255, 38, 38, 38),
+                icon: Icons.gamepad_outlined,
+              ))
         ],
       ),
     );
